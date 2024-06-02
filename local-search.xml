@@ -3,18 +3,5 @@
   
   
   
-  <entry>
-    <title>快速搭建个人博客</title>
-    <link href="/2024/06/02/%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/"/>
-    <url>/2024/06/02/%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</url>
-    
-    <content type="html"><![CDATA[<h1 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h1><ul><li>github<ul><li>依赖git</li></ul></li><li>hexo<ul><li>依赖nodejs</li><li>主题fluid</li></ul></li><li>obsidian</li></ul><h1 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a>使用方式</h1><p><img src="/image-20240602213632848.png"></p><h1 id="参考教程"><a href="#参考教程" class="headerlink" title="参考教程"></a>参考教程</h1><p><a href="https://sagi-rastar.github.io/2023/11/10/%E5%85%B3%E4%BA%8E%E6%88%91%E4%BD%BF%E7%94%A8obsidian%E5%8A%A0hexo%E9%83%A8%E7%BD%B2%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%BF%87%E7%A8%8B/">关于我使用obsidian加hexo部署个人博客的过程 - SagiRastar’s Blog (sagi-rastar.github.io)</a></p>]]></content>
-    
-    
-    
-  </entry>
-  
-  
-  
   
 </search>
