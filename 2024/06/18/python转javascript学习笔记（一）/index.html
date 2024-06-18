@@ -24,7 +24,7 @@
 <meta property="og:description" content="JavaScript简介语言规范JavaScript语言遵循ECMAScript规范（简称ES），ECMA即欧洲计算机协会，该规范定义了JavaScript（以下统一使用js缩写）语言的核心特性，确保不同环境下的js实现（比如浏览器内置js引擎、Nodejs、其他服务器端js运行时等）的一致性和互操作性。ES6或ES2015（2015年6月发行）是该规范发行以来的一个重要里程碑，也是主流浏览器基本">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-06-18T04:39:30.000Z">
-<meta property="article:modified_time" content="2024-06-18T04:39:30.374Z">
+<meta property="article:modified_time" content="2024-06-18T04:48:56.199Z">
 <meta property="article:author" content="羽飞Lexie">
 <meta property="article:tag" content="javascript, python, 单线程, 异步">
 <meta name="twitter:card" content="summary_large_image">
@@ -220,7 +220,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          5k 字
+          4.9k 字
         
       </span>
     
@@ -280,7 +280,7 @@
 <ul>
 <li>与传统的面向对象编程范式（Java&#x2F;C++&#x2F;C#等）的主要区别：<ul>
 <li>创建机制：创建对象时，无需定义类模板，通过从对已有对象的克隆或引用创建；</li>
-<li>继承机制：直接从&#x3D;&#x3D;原型对象&#x3D;&#x3D;继承属性和方法，通过&#x3D;&#x3D;原型链&#x3D;&#x3D;实现；</li>
+<li>继承机制：直接从原型对象继承属性和方法，通过原型链实现；</li>
 <li>方法共享：所有继承自原型的对象共享同一个方法的引用，减少内存使用。</li>
 </ul>
 </li>
@@ -354,10 +354,49 @@
 <li><a target="_blank" rel="noopener" href="https://www.byhy.net/web/js/01/">Javascript 简介 - 白月黑羽 (byhy.net)</a></li>
 </ul>
 <h2 id="笔记"><a href="#笔记" class="headerlink" title="笔记"></a>笔记</h2><p>如果你和我一样平时使用python较多，那么以下知识点你可能需要关注一下。</p>
-<h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs ad-tldr">title: let和var关键字区别<br>在JavaScript中，`let` 和 `var` 都用于声明变量，但它们之间有几个重要的区别：<br><br>1. **作用域**:<br>   - `var` 声明的变量具有函数作用域或全局作用域。这意味着在一个函数内部声明的变量在整个函数内部都是可见的，而在函数外部声明的变量则在整个脚本或全局范围内可见。<br>   - `let` 声明的变量具有块级作用域。这意味着变量仅在其被声明的代码块（由 `&#123;&#125;` 包围的区域，如循环或条件语句）内可见。<br><br>2. **变量提升 (Hoisting)**:<br>   - `var` 声明的变量会被提升至作用域的顶部，即在函数或全局作用域的最开始处声明，尽管实际声明可能出现在作用域内的任何位置。<br>   - `let` 声明的变量不会被提升。变量必须在使用之前声明，否则会抛出引用错误。<br><br>3. **重复声明**:<br>   - 使用 `var` 可以在同一作用域内多次声明同一个变量名，后一个声明会覆盖前一个。<br>   - 使用 `let` 在同一作用域内不允许重复声明同一个变量名，尝试这样做会导致语法错误。<br><br>4. **暂时性死区 (Temporal Dead Zone)**:<br>   - `var` 声明的变量在提升之后就可以访问，尽管访问时值为 `undefined`。<br>   - `let` 声明的变量在声明之前访问会抛出错误，这是因为变量存在于暂时性死区中直到其声明点。<br><br>5. **全局属性**:<br>   - 如果在全局作用域中使用 `var` 声明变量，该变量会自动成为全局对象（通常是 `window` 对象在浏览器环境中）的属性。<br>   - 使用 `let` 在全局作用域声明的变量不会成为全局对象的属性。<br><br>总结来说，`let` 提供了更严格的变量管理，增强了代码的可预测性和维护性。因此，现代JavaScript编码实践中通常推荐使用 `let` 而不是 `var`。同时，随着ES6的普及，`const` 也被广泛用于声明不可变的常量。<br></code></pre></td></tr></table></figure>
+<h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><blockquote>
+<p>let和var关键字区别<br>在JavaScript中，<code>let</code> 和 <code>var</code> 都用于声明变量，但它们之间有几个重要的区别：</p>
+</blockquote>
+<ol>
+<li><p><strong>作用域</strong>:</p>
+<ul>
+<li><code>var</code> 声明的变量具有函数作用域或全局作用域。这意味着在一个函数内部声明的变量在整个函数内部都是可见的，而在函数外部声明的变量则在整个脚本或全局范围内可见。</li>
+<li><code>let</code> 声明的变量具有块级作用域。这意味着变量仅在其被声明的代码块（由 <code>&#123;&#125;</code> 包围的区域，如循环或条件语句）内可见。</li>
+</ul>
+</li>
+<li><p><strong>变量提升 (Hoisting)</strong>:</p>
+<ul>
+<li><code>var</code> 声明的变量会被提升至作用域的顶部，即在函数或全局作用域的最开始处声明，尽管实际声明可能出现在作用域内的任何位置。</li>
+<li><code>let</code> 声明的变量不会被提升。变量必须在使用之前声明，否则会抛出引用错误。</li>
+</ul>
+</li>
+<li><p><strong>重复声明</strong>:</p>
+<ul>
+<li>使用 <code>var</code> 可以在同一作用域内多次声明同一个变量名，后一个声明会覆盖前一个。</li>
+<li>使用 <code>let</code> 在同一作用域内不允许重复声明同一个变量名，尝试这样做会导致语法错误。</li>
+</ul>
+</li>
+<li><p><strong>暂时性死区 (Temporal Dead Zone)</strong>:</p>
+<ul>
+<li><code>var</code> 声明的变量在提升之后就可以访问，尽管访问时值为 <code>undefined</code>。</li>
+<li><code>let</code> 声明的变量在声明之前访问会抛出错误，这是因为变量存在于暂时性死区中直到其声明点。</li>
+</ul>
+</li>
+<li><p><strong>全局属性</strong>:</p>
+<ul>
+<li>如果在全局作用域中使用 <code>var</code> 声明变量，该变量会自动成为全局对象（通常是 <code>window</code> 对象在浏览器环境中）的属性。</li>
+<li>使用 <code>let</code> 在全局作用域声明的变量不会成为全局对象的属性。</li>
+</ul>
+</li>
+</ol>
+<p>总结来说，<code>let</code> 提供了更严格的变量管理，增强了代码的可预测性和维护性。因此，现代JavaScript编码实践中通常推荐使用 <code>let</code> 而不是 <code>var</code>。同时，随着ES6的普及，<code>const</code> 也被广泛用于声明不可变的常量。</p>
 <h3 id="字符串-引号"><a href="#字符串-引号" class="headerlink" title="字符串 引号"></a>字符串 引号</h3><p>js中的字符串可以用单引号、双引号、反引号，以下定义都可以：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-string">&#x27;字符串&#x27;</span><br><span class="hljs-string">&quot;字符串&quot;</span><br><span class="hljs-string">`字符串`</span><br></code></pre></td></tr></table></figure>
-<h3 id="逻辑操作"><a href="#逻辑操作" class="headerlink" title="逻辑操作"></a>逻辑操作</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs ad-tldr">title: 松散相等比较和严格相等比较<br>- 严格相等比较：`1===1`返回true， `1===&#x27;1&#x27;`返回false<br>- 松散相等比较：`1==&#x27;1&#x27;`返回true，在比较时会尝试转化为同种类型进行比较<br>不相等同理。<br></code></pre></td></tr></table></figure>
+<h3 id="逻辑操作"><a href="#逻辑操作" class="headerlink" title="逻辑操作"></a>逻辑操作</h3><p>松散相等比较和严格相等比较</p>
+<ul>
+<li>严格相等比较：<code>1===1</code>返回true， <code>1===&#39;1&#39;</code>返回false</li>
+<li>松散相等比较：<code>1==&#39;1&#39;</code>返回true，在比较时会尝试转化为同种类型进行比较<br>不相等同理。</li>
+</ul>
 <h3 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h3><p>我们看到的js中通过字面量语法创建的对象和python中的字典类型在形式上有些相似，都是键值对的组合，比如：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">var</span> student&#123;<br>	<span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;张三&#x27;</span>，<br>	<span class="hljs-attr">age</span>: <span class="hljs-number">23</span><br>&#125;<br></code></pre></td></tr></table></figure>
 <p>并且js中的对象也支持通过<code>[]</code>访问对象的属性：<code>student[&#39;name&#39;]</code>，但两者在很多细节上存在一些关键区别：</p>
@@ -380,9 +419,8 @@
 <li>Python字典同样支持动态添加键值对。</li>
 </ul>
 </li>
-<li><p><strong>原型继承</strong>:</p>
+<li><p><strong>原型继承</strong>:<br>JavaScript对象基于原型继承，这意味着一个对象可以从另一个对象继承属性和方法。这使得JavaScript对象具有层次结构和动态性。</p>
 <ul>
-<li>&#x3D;&#x3D;JavaScript对象基于原型继承，这意味着一个对象可以从另一个对象继承属性和方法。这使得JavaScript对象具有层次结构和动态性。&#x3D;&#x3D;</li>
 <li>Python字典没有这样的原型链概念，它们只包含自己的键值对，并不从其他字典继承任何东西。</li>
 </ul>
 </li>
@@ -405,7 +443,7 @@
 </ul>
 </li>
 </ol>
-<p>这些差异反映了两种语言的&#x3D;&#x3D;设计哲学和目标&#x3D;&#x3D;，JavaScript更多地被设计为一种用于Web的脚本语言，而Python则是一种通用的、高级的编程语言。</p>
+<p>这些差异反映了两种语言的设计哲学和目标，JavaScript更多地被设计为一种用于Web的脚本语言，而Python则是一种通用的、高级的编程语言。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs ad-note">title: 哪些数据类型是对象？哪些不是对象？<br>- 对象是基于键值对的无序集合，其中的键（也称为属性名）是字符串，而值可以是任意数据类型，包括函数（作为方法）、其他对象、原始类型（如数字、字符串、布尔值）等。<br>	- 对象是属性和方法的集合，属性用于描述对象状态，方法是封装在对象中的函数，用于执行操作或算法。两者都可以通过`.`或`[]`访问，但调用方法需要加`()`。<br>	- ==函数本身也是一种对象，因为函数拥有name和desc属性==。<br>	- <br>- 非对象：<br>	- **基本数据类型（Primitive Types）**：包括 `number`、`string`、`boolean`、`undefined` 和 `null`。这些类型不是对象，它们是不可变的值。<br>    <br>	- **Symbol**：ES6 引入的 Symbol 类型也不是对象，它用于创建唯一的键，常用于对象属性名。<br></code></pre></td></tr></table></figure>
 
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs ad-note">title: 如何创建对象？<br>- **字面量形式创建的对象**：可以直接使用大括号 `&#123;&#125;` 来定义一个对象，其中可以包含各种属性和方法。<br>    <br>    ```js<br>    const obj = &#123; key: &#x27;value&#x27;, method: function() &#123; /* ... */ &#125; &#125;;<br></code></pre></td></tr></table></figure>
@@ -419,7 +457,7 @@
 <li><p><strong>类（Class）</strong>：ES6 引入了类语法，提供了一种更清晰的方式来定义对象和继承。</p>
   <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs Javascript"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Animal</span> &#123;<br>  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">name</span>) &#123;<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">name</span> = name;<br>  &#125;<br>&#125;<br><span class="hljs-keyword">const</span> animal = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Animal</span>(<span class="hljs-string">&#x27;Lion&#x27;</span>);<br></code></pre></td></tr></table></figure></li>
 <li><p><strong>内置对象</strong>：JavaScript 提供了许多内置对象，如 <code>Array</code>、<code>Date</code>、<code>Function</code>、<code>Math</code>、<code>String</code> 等，它们都是对象。</p>
-<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs autohotkey"><br><br>### 原型和原型链<br><br>原型和原型链理解js面向对象和继承机制的核心，是实现对象间属性和方法共享的基础。<br><br>每个JavaScript对象，除了`null`，都有一个内部属性`Prototype`，它引用了另一个对象。这个被引用的对象就是当前对象的原型。<br>JavaScript的继承机制是基于原型的，这意味着==每个对象都有一个原型（除了`null`），并且可以通过原型链访问属性和方法。==<br>#### 继承机制<br>- 原型继承<br><br>当试图访问一个对象的属性或方法时，如果该对象本身不包含所查找的属性或方法，JavaScript引擎会沿着原型链向上查找，直到找到该属性或方法，或者到达原型链的末端。<br><br>- 默认继承<br><br>==即使你不显式地设置一个对象的原型，它也会自动继承自`Object.prototype`，这是所有对象共享的基本原型==，包含了如`toString`、`valueOf`等基本方法。<br><br>```js<br>const obj = &#123;&#125;<span class="hljs-comment">;</span><br>console.log(obj.toString())<span class="hljs-comment">; // &quot;[object Object]&quot;</span><br></code></pre></td></tr></table></figure></li>
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs autohotkey"><br><br>### 原型和原型链<br><br>原型和原型链理解js面向对象和继承机制的核心，是实现对象间属性和方法共享的基础。<br><br>每个JavaScript对象，除了`null`，都有一个内部属性`Prototype`，它引用了另一个对象。这个被引用的对象就是当前对象的原型。<br>JavaScript的继承机制是基于原型的，这意味着每个对象都有一个原型（除了`null`），并且可以通过原型链访问属性和方法。<br>#### 继承机制<br>- 原型继承<br><br>当试图访问一个对象的属性或方法时，如果该对象本身不包含所查找的属性或方法，JavaScript引擎会沿着原型链向上查找，直到找到该属性或方法，或者到达原型链的末端。<br><br>- 默认继承<br><br>即使你不显式地设置一个对象的原型，它也会自动继承自`Object.prototype`，这是所有对象共享的基本原型，包含了如`toString`、`valueOf`等基本方法。<br><br>```js<br>const obj = &#123;&#125;<span class="hljs-comment">;</span><br>console.log(obj.toString())<span class="hljs-comment">; // &quot;[object Object]&quot;</span><br></code></pre></td></tr></table></figure></li>
 </ul>
 <p>在这个例子中，<code>obj</code>对象没有显式地设置原型，但它仍然可以调用<code>toString</code>方法，这是因为<code>toString</code>方法存在于<code>Object.prototype</code>上，<code>obj</code>隐式地继承了这个方法。</p>
 <h4 id="原型链好处——属性和方法共享"><a href="#原型链好处——属性和方法共享" class="headerlink" title="原型链好处——属性和方法共享"></a>原型链好处——属性和方法共享</h4><p>原型属性是属于该原型链的所有对象共享的，节约了内存，避免了重复定义。</p>
@@ -434,7 +472,7 @@
 <p>上述代码使用python表示时：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">fruit_info = &#123; <span class="hljs-string">&#x27;apple&#x27;</span>: <span class="hljs-number">4</span>, <span class="hljs-string">&#x27;banana&#x27;</span>: <span class="hljs-number">10</span>, <span class="hljs-string">&#x27;peach&#x27;</span>: <span class="hljs-number">6</span>, <span class="hljs-string">&#x27;watermelon&#x27;</span>: <span class="hljs-number">3</span>, &#125; <br><span class="hljs-keyword">def</span> <span class="hljs-title function_">print_fruit_info</span>(<span class="hljs-params">*fruits</span>): <br>	<span class="hljs-keyword">for</span> fruit <span class="hljs-keyword">in</span> fruits: <br>		<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;fruit: <span class="hljs-subst">&#123;fruit&#125;</span>, num: <span class="hljs-subst">&#123;fruit_info[fruit]&#125;</span>&quot;</span>) <br><span class="hljs-comment"># 调用函数 </span><br>print_fruit_info(<span class="hljs-string">&#x27;apple&#x27;</span>, <span class="hljs-string">&#x27;banana&#x27;</span>, <span class="hljs-string">&#x27;peach&#x27;</span>)<br></code></pre></td></tr></table></figure>
 
-<h3 id="单线程异步编程"><a href="#单线程异步编程" class="headerlink" title="单线程异步编程"></a>单线程异步编程</h3><p>js最初设计被用于进行web开发，通过事件处理机制来对用户事件进行监听和响应，js引擎使用异步架构。<br>在js中，异步（Asynchronous）编程是一种允许你的程序在等待某些耗时操作（如网络请求、文件读写、定时器、数据库查询等）完成的同时，继续执行其他任务的编程模式。异步编程是JavaScript处理并发和&#x3D;&#x3D;I&#x2F;O密集型操作&#x3D;&#x3D;的关键特性，它使得Web应用程序能够保持响应性和性能。</p>
+<h3 id="单线程异步编程"><a href="#单线程异步编程" class="headerlink" title="单线程异步编程"></a>单线程异步编程</h3><p>js最初设计被用于进行web开发，通过事件处理机制来对用户事件进行监听和响应，js引擎使用异步架构。<br>在js中，异步（Asynchronous）编程是一种允许你的程序在等待某些耗时操作（如网络请求、文件读写、定时器、数据库查询等）完成的同时，继续执行其他任务的编程模式。异步编程是JavaScript处理并发和I&#x2F;O密集型操作的关键特性，它使得Web应用程序能够保持响应性和性能。</p>
 <p>与之相对的是同步（Synchronous）编程，其中程序会按顺序执行每一行代码，如果遇到耗时操作，程序会停下来等待这个操作完成，然后再继续执行下一行代码。这在单线程环境中（如JavaScript在浏览器中的执行环境）会导致阻塞，降低用户体验，尤其是在处理长时间运行的任务时。</p>
 <p>JavaScript使用事件循环（Event Loop）机制来支持异步编程。事件循环检查是否有待处理的事件或回调函数，如果有，就将它们加入到执行队列中，然后在当前任务完成后按顺序执行这些任务。这意味着，即使你的代码中包含了一些耗时操作，js引擎也不会停止执行其他代码，而是将这些耗时操作委托给操作系统或者其他线程去处理，一旦这些操作完成，再通过回调函数、Promise、async&#x2F;await等方式通知主执行线程。</p>
 <p>需要注意的是，js从设计之初就是一个单线程语言，即使看上去回调函数和主程序在并发执行，但其实都运行在一个主线程中。这种单线程异步编程方式的优点在于：</p>
@@ -447,7 +485,7 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">//setTimeout模仿异步操作，两秒后调用回调函数callback</span><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">fetchData</span>(<span class="hljs-params">callback</span>) &#123; <br>	<span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> &#123; <br>		<span class="hljs-keyword">const</span> data = <span class="hljs-string">&#x27;Hello from the server!&#x27;</span>; <br>		<span class="hljs-title function_">callback</span>(data); <br>		&#125;, <span class="hljs-number">2000</span>); <br>	&#125;<br><span class="hljs-title function_">fetchData</span>(<span class="hljs-function">(<span class="hljs-params">data</span>) =&gt;</span> &#123; <br>	<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(data); <br>	&#125;);<br></code></pre></td></tr></table></figure>
 <p>回调函数缺点：当需要依次执行多个异步操作时，容易陷入回调地狱。</p>
 </li>
-<li><p><strong>Promise</strong>：一种更为现代的处理异步操作的方法，允许以&#x3D;&#x3D;链式&#x3D;&#x3D;调用的方式处理异步操作的结果，通过链式调用避免层层嵌套，提升可读性。js中的fetch API就是一个很好的例子。</p>
+<li><p><strong>Promise</strong>：一种更为现代的处理异步操作的方法，允许以<strong>链式</strong>调用的方式处理异步操作的结果，通过链式调用避免层层嵌套，提升可读性。js中的fetch API就是一个很好的例子。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-title function_">fetch</span>(<span class="hljs-string">&quot;https://jsonplaceholder.typicode.com/posts/1&quot;</span>)<br>	.<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">response</span>)=&gt;</span>response.<span class="hljs-title function_">json</span>())<br>	.<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">json</span>)=&gt;</span>&#123;<br>		<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(json);<br>	&#125;)<br>	.<span class="hljs-title function_">catch</span>(<span class="hljs-function">(<span class="hljs-params">error</span>)=&gt;</span>&#123;<br>		<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(error);<br>	&#125;)<br>	<span class="hljs-title function_">finally</span>(<span class="hljs-function">()=&gt;</span>&#123;<br>		<span class="hljs-title function_">stopLoadingAnimation</span>();              <span class="hljs-comment">//类似try-catch-finally结构</span><br>	&#125;);<br><br></code></pre></td></tr></table></figure>
 <p>Promise是ES6中引入的用于简化异步编程的构造。Promise对象代表一个最终可能完成或失败的异步操作，它有三种状态：pending（等待中）、fulfilled（已完成）和rejected（已拒绝）。<br>从字面理解<code>Promise</code>——承诺会在未来某个时刻返回数据，异步函数可以理解为返回值为Promise对象的函数。</p>
 </li>
