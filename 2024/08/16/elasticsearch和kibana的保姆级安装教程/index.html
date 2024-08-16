@@ -1,0 +1,846 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="羽飞Lexie">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="目录导航  为什么使用docker容器部署这些应用  什么是docker  docker安装  elasticsearch安装  什么是elasticseach  安装步骤  安装kibana  什么是kibana  安装步骤  安装ik分词器插件  安装elasticsearch-head插件  参考文献   为什么使用docker容器部署这些应用什么是docker docker是一种容器技术，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="elasticsearch和kibana的保姆级安装教程">
+<meta property="og:url" content="http://example.com/2024/08/16/elasticsearch%E5%92%8Ckibana%E7%9A%84%E4%BF%9D%E5%A7%86%E7%BA%A7%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:site_name" content="羽飞的博客">
+<meta property="og:description" content="目录导航  为什么使用docker容器部署这些应用  什么是docker  docker安装  elasticsearch安装  什么是elasticseach  安装步骤  安装kibana  什么是kibana  安装步骤  安装ik分词器插件  安装elasticsearch-head插件  参考文献   为什么使用docker容器部署这些应用什么是docker docker是一种容器技术，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/4VcxbyvSnViaAHA5dWIy0czRsoQQAFM98dggab40YN3ic8lpcKCXFoluP1wsHZh32eXqC215Z1amrUna5FNbHGwg/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/4VcxbyvSnViaAHA5dWIy0czRsoQQAFM983jyOOHiaaQFhnukibKszeB2icAs71ric0C0hqsOQdwMPaAXthm8DibYJvxQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/4VcxbyvSnViaAHA5dWIy0czRsoQQAFM98JicWT0Wp6j9M50mmIibmffjhbVb88OqlusyLSg3MXvQy9kRcGcuUhhicA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/4VcxbyvSnViaAHA5dWIy0czRsoQQAFM98rTaCunGfobUibJcS49OKT77Hq9OuRPia0puB0JQb5QIflHnVVgnoHleQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/4VcxbyvSnViaAHA5dWIy0czRsoQQAFM98LBN5Y9g5ETNAIau4eNMkLOPtx6EJSVTGx0GxorWfa63x2zKUP19Juw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/4VcxbyvSnViaAHA5dWIy0czRsoQQAFM98RmwYjTGvdgU2wbAbqs3I7ke1dooCKwUgB8tnCNZZNAMJGwRBEedYng/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/4VcxbyvSnViaAHA5dWIy0czRsoQQAFM98BcGr8bOqMVglO6NnickmYkQiasw1oDqQmyxJyPeeHHO6PFaOobm2xwiaA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/4VcxbyvSnViaAHA5dWIy0czRsoQQAFM98CBLuhf4icKAJSm91pwTiaKkTE9bexEv15zMApib8QB9Vz1QzxOboAQCWg/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/4VcxbyvSnViaAHA5dWIy0czRsoQQAFM988ibicMQNAScNsN9N2hZftW9ajUmqmWiaN60aecQmZa4ZDFsoV6ns38QnA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/4VcxbyvSnViaAHA5dWIy0czRsoQQAFM98xdOS1HiblxIFu6xvdv063N2WyGNYLmgOt9qayQb3mFcezsQ0df2Uzag/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/4VcxbyvSnViaAHA5dWIy0czRsoQQAFM98PMoK2nwNaOSADOGtVWXhhGW3ibgE9aXxf3ghDRUKzibEyuViaRMNibmiaEw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/4VcxbyvSnViaAHA5dWIy0czRsoQQAFM98hwKyKVcuRKkLOx838nxV2hYXRiarklWCXtn6juZeL7RCLUuqIZonxFQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/4VcxbyvSnViaAHA5dWIy0czRsoQQAFM98aVWtrc5aCln9cXkmWPibSLHSax7J6sJONpicbicXyhpnrNSUJwSeY3gng/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
+<meta property="article:published_time" content="2024-08-16T14:35:33.000Z">
+<meta property="article:modified_time" content="2024-08-16T14:36:05.118Z">
+<meta property="article:author" content="羽飞Lexie">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="数据分析">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://mmbiz.qpic.cn/mmbiz_png/4VcxbyvSnViaAHA5dWIy0czRsoQQAFM98dggab40YN3ic8lpcKCXFoluP1wsHZh32eXqC215Z1amrUna5FNbHGwg/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
+  
+  
+  
+  <title>elasticsearch和kibana的保姆级安装教程 - 羽飞的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>羽飞的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="elasticsearch和kibana的保姆级安装教程"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-08-16 22:35" pubdate>
+          2024年8月16日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          15 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">elasticsearch和kibana的保姆级安装教程</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><strong>目录导航</strong></p>
+<ul>
+<li><p>为什么使用docker容器部署这些应用</p>
+</li>
+<li><p>什么是docker</p>
+</li>
+<li><p>docker安装</p>
+</li>
+<li><p>elasticsearch安装</p>
+</li>
+<li><p>什么是elasticseach</p>
+</li>
+<li><p>安装步骤</p>
+</li>
+<li><p>安装kibana</p>
+</li>
+<li><p>什么是kibana</p>
+</li>
+<li><p>安装步骤</p>
+</li>
+<li><p>安装ik分词器插件</p>
+</li>
+<li><p>安装elasticsearch-head插件</p>
+</li>
+<li><p>参考文献</p>
+</li>
+</ul>
+<h2 id="为什么使用docker容器部署这些应用"><a href="#为什么使用docker容器部署这些应用" class="headerlink" title="为什么使用docker容器部署这些应用"></a>为什么使用docker容器部署这些应用</h2><h3 id="什么是docker"><a href="#什么是docker" class="headerlink" title="什么是docker"></a>什么是docker</h3><blockquote>
+<p>docker是一种容器技术，可对软件运行环境进行封装，docker容器和虚拟机模型类似，区别在于容器的运行不会独占操作系统，适应了云计算时代按需配置资源的模式。docker容器具有以下优势：</p>
+</blockquote>
+<ul>
+<li><p>节省系统资源：运行在同一宿主机上的容器共享一个操作系统，从而节省大量系统资源（CPU、RAM、存储等）；</p>
+</li>
+<li><p>轻量级、启动快、可移植：容器可以方便地在不同环境之间迁移，从本地迁移到云端，从物理机迁移到虚拟机等。</p>
+</li>
+</ul>
+<p>Linux平台是Docker原生支持平台，在Linux上使用Docker可以得到最佳的用户体验，本文的安装环境为 Ubuntu18.04虚拟机。</p>
+<h3 id="docker安装"><a href="#docker安装" class="headerlink" title="docker安装"></a>docker安装</h3><p>1、首先对虚拟机做一些基本的配置。</p>
+<ul>
+<li><p>输入<code>ifconfig</code>查看虚拟机ip地址，我的ip是192.168.160.128<img src="https://mmbiz.qpic.cn/mmbiz_png/4VcxbyvSnViaAHA5dWIy0czRsoQQAFM98dggab40YN3ic8lpcKCXFoluP1wsHZh32eXqC215Z1amrUna5FNbHGwg/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" srcset="/img/loading.gif" lazyload alt="图片"></p>
+</li>
+<li><p>在虚拟机内安装open-ssh服务，开启远程访问。输入如下命令：</p>
+</li>
+</ul>
+<p><code>sudo apt-get install openssh-server   </code></p>
+<ul>
+<li><p>安装后就可以使用远程终端工具对虚拟机进行操作了，我这里使用的是WindTerm（<a target="_blank" rel="noopener" href="https://github.com/kingToolbox/WindTerm/releases/tag/2.1%EF%BC%89%EF%BC%8C%E4%B8%80%E4%B8%AA%E6%AF%94Xshell%E6%9B%B4%E5%A5%BD%E7%94%A8%E7%9A%84%E5%B7%A5%E5%85%B7%EF%BC%8C%E5%90%8E%E9%9D%A2%E4%BC%9A%E7%BB%A7%E7%BB%AD%E5%87%BA%E6%96%87%E7%AB%A0%E4%BB%8B%E7%BB%8D%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8WindTerm%E3%80%82">https://github.com/kingToolbox/WindTerm/releases/tag/2.1），一个比Xshell更好用的工具，后面会继续出文章介绍如何使用WindTerm。</a></p>
+</li>
+<li><p>关闭Ubuntu的防火墙</p>
+</li>
+</ul>
+<p><code>sudo ufw disable   </code></p>
+<p>2、接下来就可以进入docker的安装了。</p>
+<ul>
+<li>安装apt依赖包</li>
+</ul>
+<p><code>sudo apt-get update        sudo apt-get install \     apt-transport-https \     ca-certificates \     curl \     gnupg-agent \     software-properties-common   </code></p>
+<ul>
+<li>添加 Docker 的官方 GPG 密钥，并设置稳定版仓库</li>
+</ul>
+<p><code>curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -      sudo add-apt-repository \      &quot;deb [arch=amd64] https://download.docker.com/linux/ubuntu \     $(lsb_release -cs) \     stable&quot;   </code></p>
+<ul>
+<li>安装docker的三个包</li>
+</ul>
+<p><code>sudo apt-get update   sudo apt-get install docker-ce docker-ce-cli containerd.io   </code></p>
+<ul>
+<li>检查安装情况</li>
+</ul>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/4VcxbyvSnViaAHA5dWIy0czRsoQQAFM983jyOOHiaaQFhnukibKszeB2icAs71ric0C0hqsOQdwMPaAXthm8DibYJvxQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<ul>
+<li>设置docker随系统自动启动</li>
+</ul>
+<p><code>systemctl enable docker.service   </code></p>
+<h2 id="elasticsearch安装"><a href="#elasticsearch安装" class="headerlink" title="elasticsearch安装"></a>elasticsearch安装</h2><h3 id="什么是elasticseach"><a href="#什么是elasticseach" class="headerlink" title="什么是elasticseach"></a>什么是elasticseach</h3><blockquote>
+<p>elasticsearch是一款分布式的全文本搜索和分析引擎，可以在其基础上构建搜索和分析应用。现在越来越多的IT公司都采用Elasticsearch进行数据处理，包括GitHub，其代码搜索程序就是基于Elasticsearch。</p>
+</blockquote>
+<h3 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h3><ul>
+<li><p>切换到管理员账户，这样可以省去每次输入命令时都需要输入sudo的麻烦，同时也避免后续配置容器挂载目录的权限问题。如果未配置过root密码，使用<code>sudo passwd root</code>设置密码，再通过su命令切换到root账户。</p>
+</li>
+<li><p>下载Elasticsearch镜像，去官方镜像网站（<a target="_blank" rel="noopener" href="https://www.docker.elastic.co/r/elasticsearch%EF%BC%89%E9%80%89%E6%8B%A9%E9%9C%80%E8%A6%81%E7%9A%84%E7%89%88%E6%9C%AC%EF%BC%8C%E6%88%91%E8%BF%99%E9%87%8C%E4%B8%8B%E7%9A%84%E6%98%AF7.13.4%E7%89%88%E6%9C%AC">https://www.docker.elastic.co/r/elasticsearch）选择需要的版本，我这里下的是7.13.4版本</a></p>
+</li>
+</ul>
+<p><code>docker pull elasticsearch:7.13.4   </code></p>
+<ul>
+<li>docker images 查看下载镜像</li>
+</ul>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/4VcxbyvSnViaAHA5dWIy0czRsoQQAFM98JicWT0Wp6j9M50mmIibmffjhbVb88OqlusyLSg3MXvQy9kRcGcuUhhicA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<ul>
+<li>创建一个自定义的网络，用于后续连接到该网络下的其他服务，比如kibana。</li>
+</ul>
+<p><code>docker network create esnet   </code></p>
+<ul>
+<li>运行elasticsearch容器，单节点版本，命令如下：</li>
+</ul>
+<p><code>docker run -d --name es \     -p 9200:9200 -p 9300:9300 \     --net esnet \     -e &quot;discovery.type=single-node&quot; \     -e ES_JAVA_OPTS=&quot;-Xms256m -Xmx256m&quot; \     elasticsearch:7.13.4   </code></p>
+<p><em>其中es为容器名，-p指定web应用的访问端口，最后一行表示创建容器所使用的镜像版本。</em></p>
+<ul>
+<li>查看正在运行的容器状态，输入<code>docker ps</code></li>
+</ul>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/4VcxbyvSnViaAHA5dWIy0czRsoQQAFM98rTaCunGfobUibJcS49OKT77Hq9OuRPia0puB0JQb5QIflHnVVgnoHleQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<ul>
+<li>输入curl ‘127.0.0.1:9200’，查看es容器是否启动成功。</li>
+</ul>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/4VcxbyvSnViaAHA5dWIy0czRsoQQAFM98LBN5Y9g5ETNAIau4eNMkLOPtx6EJSVTGx0GxorWfa63x2zKUP19Juw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<ul>
+<li>修改elasticsearch配置文件，设置成可通过局域网访问。首先进入es容器，输入</li>
+</ul>
+<p><code>docker exec -it es /bin/bash   </code></p>
+<ul>
+<li>再修改elasticsearch.yml文件</li>
+</ul>
+<p><code>vi config/elasticsearch.yml   </code></p>
+<ul>
+<li>在文件末尾添加两行内容，保存。</li>
+</ul>
+<p><code>http.cors.enabled: true   http.cors.allow-origin: &quot;*&quot;   </code></p>
+<ul>
+<li>输入<code>exit</code>退出容器，再输入<code>docker restart es</code>重启容器。打开宿主机浏览器页面，输入“虚拟机ip：9200”，比如我这里是192.168.160.128:9200，浏览器页面出现如下内容，表示安装成功。</li>
+</ul>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/4VcxbyvSnViaAHA5dWIy0czRsoQQAFM98RmwYjTGvdgU2wbAbqs3I7ke1dooCKwUgB8tnCNZZNAMJGwRBEedYng/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h2 id="安装kibana"><a href="#安装kibana" class="headerlink" title="安装kibana"></a>安装kibana</h2><h3 id="什么是kibana"><a href="#什么是kibana" class="headerlink" title="什么是kibana"></a>什么是kibana</h3><blockquote>
+<p>kibana是与elasticsearch协同工作的开源数据可视化分析平台，可以在各种统计图、表格和地图中执行高级数据分析和数据可视化。</p>
+</blockquote>
+<h3 id="安装步骤-1"><a href="#安装步骤-1" class="headerlink" title="安装步骤"></a>安装步骤</h3><p>kibana版本要保持和Elasticsearch一致，这里也采用7.13.4版本。</p>
+<ul>
+<li>拉取kibana镜像</li>
+</ul>
+<p><code>docker pull kibana:7.13.4   </code></p>
+<ul>
+<li>查看下载镜像</li>
+</ul>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/4VcxbyvSnViaAHA5dWIy0czRsoQQAFM98BcGr8bOqMVglO6NnickmYkQiasw1oDqQmyxJyPeeHHO6PFaOobm2xwiaA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<ul>
+<li>运行kibana容器，容器名为kibana，通过刚刚创建的esnet网络连接到正在运行的es实例。</li>
+</ul>
+<p><code>docker run -d --name kibana \     --net esnet \     -p 5601:5601 \     kibana:7.13.4</code>  </p>
+<ul>
+<li>复制docker容器内的配置kibana.yml文件到虚拟机主机</li>
+</ul>
+<p><code>docker cp kibana:/usr/share/kibana/config/kibana.yml .   </code></p>
+<ul>
+<li>修改kibana.yml文件，修改内容如下：</li>
+</ul>
+<p><code>server.name: &quot;kibana&quot;   server.port: 5601   server.host: &quot;0.0.0.0&quot;   elasticsearch.hosts: [ &quot;http://192.168.160.128:9200&quot; ]   monitoring.ui.container.elasticsearch.enabled: true   i18n.locale: &quot;zh-CN&quot;   </code></p>
+<p><em>其中，192.168.160.128是我的虚拟机ip，也就是elasticsearch的web端所在地址，用户在配置时需要根据自己的实际情况修改ip地址。</em></p>
+<ul>
+<li>将修改后的文件复制到kibana容器内的config文件夹</li>
+</ul>
+<p><code>docker cp kibana.yml kibana:/usr/share/kibana/config/   </code></p>
+<ul>
+<li>修改完成后,重启kibana容器<code>docker restart kibana</code>。等待30秒，打开浏览器页面，在网址栏输入“虚拟机ip:5601”（我这里是192.168.160.128:5601），若出现如下界面，表示kibana安装成功。</li>
+</ul>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/4VcxbyvSnViaAHA5dWIy0czRsoQQAFM98CBLuhf4icKAJSm91pwTiaKkTE9bexEv15zMApib8QB9Vz1QzxOboAQCWg/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h2 id="安装ik分词器插件"><a href="#安装ik分词器插件" class="headerlink" title="安装ik分词器插件"></a>安装ik分词器插件</h2><blockquote>
+<p>ik分词器插件集成于elasticsearch，可实现中文的职能分词。ik分析器的版本必须要和elasticsearch的版本保持一致，这里同样使用7.13.4，下载地址（<a target="_blank" rel="noopener" href="https://github.com/medcl/elasticsearch-analysis-ik/releases/tag/v7.13.4%EF%BC%89%EF%BC%8C%E8%BF%99%E9%87%8C%E9%87%87%E7%94%A8%E5%AE%89%E8%A3%85%E5%8C%85%E5%AE%89%E8%A3%85%E7%9A%84%E6%96%B9%E5%BC%8F%E3%80%82">https://github.com/medcl/elasticsearch-analysis-ik/releases/tag/v7.13.4），这里采用安装包安装的方式。</a></p>
+</blockquote>
+<ul>
+<li>将下载的安装包复制到Ubuntu虚拟机，再从虚拟机复制到es容器内&#x2F;usr&#x2F;share&#x2F;elasticsearch&#x2F;文件夹：</li>
+</ul>
+<p><code>docker cp elasticsearch-analysis-ik-7.13.4.zip es:/usr/share/elasticsearch/   </code></p>
+<ul>
+<li><code>docker exec -it es /bin/bash</code> 进入es容器，进入到&#x2F;usr&#x2F;share&#x2F;elasticsearch&#x2F;plugins&#x2F;目录，输入安装命令：</li>
+</ul>
+<p><code>elasticsearch-plugin install file:/usr/share/elasticsearch/elasticsearch-analysis-ik-7.13.4.zip   </code></p>
+<ul>
+<li><code>elasticsearch-plugin list</code>查看已安装插件。退出容器并重启es。</li>
+</ul>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/4VcxbyvSnViaAHA5dWIy0czRsoQQAFM988ibicMQNAScNsN9N2hZftW9ajUmqmWiaN60aecQmZa4ZDFsoV6ns38QnA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h2 id="安装elasticsearch-head插件"><a href="#安装elasticsearch-head插件" class="headerlink" title="安装elasticsearch-head插件"></a>安装elasticsearch-head插件</h2><blockquote>
+<p>elasticsearch-head是一款基于web端的elasticsearch集群管理工具，可以方便的实现数据可视化，以及对elasticsearch集群数据的增删改查。</p>
+</blockquote>
+<ul>
+<li>拉取head插件镜像，创建容器并运行，端口号设置为为9100。</li>
+</ul>
+<p><code>docker pull mobz/elasticsearch-head:5      docker run -d --name es-head -p 9100:9100 --net esnet mobz/elasticsearch-head:5   </code></p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/4VcxbyvSnViaAHA5dWIy0czRsoQQAFM98xdOS1HiblxIFu6xvdv063N2WyGNYLmgOt9qayQb3mFcezsQ0df2Uzag/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<ul>
+<li>打开宿主机浏览器页面，输入“虚拟机ip：9100”，比如我这里是192.168.160.128:9100，打开后如果出现以下界面，无法连接到elasticsearch的地址，此时需要重新配置一下elasticsearch.yml文件。</li>
+</ul>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/4VcxbyvSnViaAHA5dWIy0czRsoQQAFM98PMoK2nwNaOSADOGtVWXhhGW3ibgE9aXxf3ghDRUKzibEyuViaRMNibmiaEw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<ul>
+<li>输入<code>docker exec -it es /bin/bash</code>进入es容器，<code>vi config/elasticsearch.yml</code>修改配置文件，追加两行内容：</li>
+</ul>
+<p><code>http.cors.enabled: true   http.cors.allow-origin: &quot;*&quot;   </code></p>
+<ul>
+<li>退出容器并重启，此时在浏览器中再次输入“虚拟机ip：9100”，出现如下界面，表示安装成功，可以查看集群健康值。</li>
+</ul>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/4VcxbyvSnViaAHA5dWIy0czRsoQQAFM98hwKyKVcuRKkLOx838nxV2hYXRiarklWCXtn6juZeL7RCLUuqIZonxFQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<ul>
+<li>同样可以在命令行中查看集群节点的健康情况，在命令行输入：</li>
+</ul>
+<p><code>curl -X GET &quot;localhost:9200/_cat/health?v&quot;   </code></p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/4VcxbyvSnViaAHA5dWIy0czRsoQQAFM98aVWtrc5aCln9cXkmWPibSLHSax7J6sJONpicbicXyhpnrNSUJwSeY3gng/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><em>绿色表示健康，由于安装的是单机版，只有1个节点。</em></p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
+<li><p>2020-02-29 ubuntu Docker 安装 ElasticSearch-简书（<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/f63440680ded%EF%BC%89">https://www.jianshu.com/p/f63440680ded）</a></p>
+</li>
+<li><p>Docker 安装 ElasticSearch 和 Kibana （<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_34814092/article/details/116211023%EF%BC%89">https://blog.csdn.net/qq_34814092/article/details/116211023）</a></p>
+</li>
+<li><p>《大数据搜索与挖掘及可视化管理方案 ：Elastic Stack 5：Elasticsearch、Logstash、Kibana、X-Pack、Beats （第3版）》高凯</p>
+</li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="print-no-link">#数据库</a>
+      
+        <a href="/tags/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" class="print-no-link">#数据分析</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>elasticsearch和kibana的保姆级安装教程</div>
+      <div>http://example.com/2024/08/16/elasticsearch和kibana的保姆级安装教程/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>羽飞Lexie</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年8月16日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/01/%E4%BA%86%E8%A7%A3cookie-session-token/" title="了解cookie-session-token">
+                        <span class="hidden-mobile">了解cookie-session-token</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
