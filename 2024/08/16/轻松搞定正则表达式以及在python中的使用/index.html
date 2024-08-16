@@ -1,0 +1,739 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="羽飞Lexie">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="在处理字符串相关的问题时，我们常常会在代码中遇到需要使用正则表达式的场景。正则表达式(regular expressions)就是一种字符串的匹配规则（也称为模式，_pattern_），可以帮助我们从输入文本中提取需要的字符序列。 网上的很多教程都是直接罗列出几十条常用的表达式让你去查，但每个人的需求场景不同，如果不理解那些元字符的含义和匹配规则，一个个去试的话，反而更加低效。其实，正则表达式中常">
+<meta property="og:type" content="article">
+<meta property="og:title" content="轻松搞定正则表达式以及在python中的使用">
+<meta property="og:url" content="http://example.com/2024/08/16/%E8%BD%BB%E6%9D%BE%E6%90%9E%E5%AE%9A%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%BB%A5%E5%8F%8A%E5%9C%A8python%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="羽飞的博客">
+<meta property="og:description" content="在处理字符串相关的问题时，我们常常会在代码中遇到需要使用正则表达式的场景。正则表达式(regular expressions)就是一种字符串的匹配规则（也称为模式，_pattern_），可以帮助我们从输入文本中提取需要的字符序列。 网上的很多教程都是直接罗列出几十条常用的表达式让你去查，但每个人的需求场景不同，如果不理解那些元字符的含义和匹配规则，一个个去试的话，反而更加低效。其实，正则表达式中常">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2024/08/16/%E8%BD%BB%E6%9D%BE%E6%90%9E%E5%AE%9A%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%BB%A5%E5%8F%8A%E5%9C%A8python%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/image-20240816230438270.png">
+<meta property="og:image" content="http://example.com/2024/08/16/%E8%BD%BB%E6%9D%BE%E6%90%9E%E5%AE%9A%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%BB%A5%E5%8F%8A%E5%9C%A8python%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/image-20240816230452151.png">
+<meta property="article:published_time" content="2024-08-16T15:02:58.000Z">
+<meta property="article:modified_time" content="2024-08-16T15:07:47.579Z">
+<meta property="article:author" content="羽飞Lexie">
+<meta property="article:tag" content="正则表达式">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2024/08/16/%E8%BD%BB%E6%9D%BE%E6%90%9E%E5%AE%9A%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%BB%A5%E5%8F%8A%E5%9C%A8python%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/image-20240816230438270.png">
+  
+  
+  
+  <title>轻松搞定正则表达式以及在python中的使用 - 羽飞的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>羽飞的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="轻松搞定正则表达式以及在python中的使用"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-08-16 23:02" pubdate>
+          2024年8月16日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          19 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">轻松搞定正则表达式以及在python中的使用</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>在处理字符串相关的问题时，我们常常会在代码中遇到需要使用正则表达式的场景。正则表达式(<em>regular expressions</em>)就是一种字符串的匹配规则（也称为模式，_pattern_），可以帮助我们从输入文本中提取需要的字符序列。</p>
+<p>网上的很多教程都是直接罗列出几十条常用的表达式让你去查，但每个人的需求场景不同，如果不理解那些元字符的含义和匹配规则，一个个去试的话，反而更加低效。其实，正则表达式中常用的组件并不多，很快就能掌握，而且也足以应对大部分的应用场景。</p>
+<h1 id="常用组件"><a href="#常用组件" class="headerlink" title="常用组件"></a>常用组件</h1><p>学习正则表达式时首先需要理解一些特殊的元字符，它们是用来构建正则表达式的组件，可以表示单个字符、字符集合、字符范围、字符位置顺序、字符间的选择等。</p>
+<h2 id="1-匹配字母、数字、空白字符"><a href="#1-匹配字母、数字、空白字符" class="headerlink" title="1. 匹配字母、数字、空白字符"></a>1. 匹配字母、数字、空白字符</h2><p>这三类都区分大小写，且大小写形式的意义相近，很适合放在一起记忆。</p>
+<ul>
+<li><p>字母数字元字符</p>
+</li>
+<li><p>\w：匹配任何一个字母或数字或下划线。</p>
+</li>
+<li><p>W：匹配任何一个非字母、数字、下划线型字符（如标点符号）。</p>
+</li>
+<li><p>数字元字符</p>
+</li>
+<li><p>\d：匹配任何一个数字字符。</p>
+</li>
+<li><p>\D：匹配任何一个非数字字符。</p>
+</li>
+<li><p>空白元字符</p>
+</li>
+<li><p>\s：匹配任何一个空白字符。常见的空白符的形式有空格 (␣)、制表符 (\t)、换行 (\n) 和回车 (\r) ，\s都可以匹配。</p>
+</li>
+<li><p>\S：匹配任何一个非空白字符。</p>
+</li>
+</ul>
+<h2 id="2-通配符（wildcard）"><a href="#2-通配符（wildcard）" class="headerlink" title="2. 通配符（wildcard）"></a>2. 通配符（wildcard）</h2><p>由元字符<code>.</code>来表示，可以匹配任意单个字符（包括字母、数字、空格等，但是不匹配换行符）。如果想要专门匹配句点<code>.</code>，则需要在前面加一个斜杠来转义：<code>\.</code>。</p>
+<h2 id="3-指定匹配次数"><a href="#3-指定匹配次数" class="headerlink" title="3. 指定匹配次数"></a>3. 指定匹配次数</h2><p>以上两条都只能匹配单个字符，如果想要匹配多次呢？比如匹配四个数字，输入<code>\d\d\d\d</code>虽然也可以，但表达式就会显得很长，而且如果重复上千次时就太麻烦了，这时就可以指定匹配的重复次数：</p>
+<ul>
+<li><p>+：重复1次或多次；e.g. <code>\d+</code>匹配至少一个数字。</p>
+</li>
+<li><p>？：匹配0次或1次；e.g. <code>\w?</code>最多匹配一个字母。</p>
+</li>
+<li><p>*：匹配0次或多次；e.g. <code>\s*</code>匹配任意多个空格。</p>
+</li>
+<li><p>{n}：匹配n次；e.g. <code>\d&#123;3&#125;</code>匹配3个数字。</p>
+</li>
+<li><p>{n,}：匹配至少n次；e.g. <code>\d&#123;3,&#125;</code>至少匹配3个数字。</p>
+</li>
+<li><p>{n,m}：匹配n到m此；e.g. <code>\d&#123;3,5&#125;</code>至少匹配3个数字，最多匹配5个数字。</p>
+</li>
+</ul>
+<h2 id="4-描述位置"><a href="#4-描述位置" class="headerlink" title="4. 描述位置^$"></a>4. 描述位置^$</h2><ul>
+<li><p>^：匹配字符的开头</p>
+</li>
+<li><p>$：匹配字符的结尾</p>
+</li>
+</ul>
+<p><code>^</code>和<code>$</code>不存在作用范围，将它们想象成一种地标，<code>^</code>在哪里，哪里就是字符串的开头，<code>$</code>在哪里，哪里就是字符串的结尾。</p>
+<h2 id="5-使用中括号-匹配特定范围的字符"><a href="#5-使用中括号-匹配特定范围的字符" class="headerlink" title="5. 使用中括号[]匹配特定范围的字符"></a>5. 使用中括号<code>[]</code>匹配特定范围的字符</h2><p>如果我们需要匹配的数字只有0-6，而不包括7-9，这时就可以用中括号结合破折号<code>[0-6]</code>来指定匹配的字符范围。一对中括号中还可以指定多种字符范围，比如<code>[A-Za-z0-9_]</code>，就相当于<code>\w</code>。</p>
+<p>使用中括号有几个需要注意的地方：</p>
+<ul>
+<li><p>中括号相当于一个集合，里面的元素之间存在“或”的关系，<code>[abc]</code>只能匹配a或b或c；</p>
+</li>
+<li><p><code>^</code>在中括号中表示“非”，不表示字符串的开头。如果需要表示字符串的开头，需要放在中括号之外。</p>
+</li>
+</ul>
+<h2 id="6-使用小括号-匹配子串"><a href="#6-使用小括号-匹配子串" class="headerlink" title="6. 使用小括号()匹配子串"></a>6. 使用小括号()匹配子串</h2><p>有时候，我们不仅需要匹配字符串，还想从中提取部分对我们有用的信息，这时可以使用小括号()将需要返回的子串括起来，子串也称为捕获组。</p>
+<p>一个正则表达式中可以包含多个小括号，比如当我们想要返回多个子串信息时，可以嵌套小括号来使用，这也成为嵌套组。</p>
+<p>举个🌰：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python">存在一类文件：文件名以file_开头,下划线之后是文件的三位数字编号，文件后缀为.pdf。  <br>file_123.pdf  <br>file_234.pdf  <br>  <br>当我们想要返回该类文件的文件名但不包含后缀，如何定义正则表达式？  <br>————————————————————————————  <br>^（file_\d&#123;<span class="hljs-number">3</span>&#125;)\.pdf$  <br>  <br>当我们想要返回该类文件的文件名但不包含后缀，并且同时获得文件的编号时，如何定义正则表达式？  <br>————————————————————————————  <br>^（file_(\d&#123;<span class="hljs-number">3</span>&#125;))\.pdf$<br></code></pre></td></tr></table></figure>
+
+<h2 id="7-使用逻辑或条件"><a href="#7-使用逻辑或条件" class="headerlink" title="7. 使用逻辑或条件|"></a>7. 使用逻辑或条件<code>|</code></h2><p>上文中我们提到中括号<code>[]</code>中是单个字符的或关系，如果我们想表示不同字符集之间的或关系，该如何表示呢？比如想买牛奶或面包，这时就可以使用<code>|</code>搭配小括号<code>()</code>使用：<code>I want to buy (milk|bread)</code>.注意，这里的<code>()</code>不是用于返回子串，而是用来限定<code>|</code>的作用范围。</p>
+<h1 id="练习工具"><a href="#练习工具" class="headerlink" title="练习工具"></a>练习工具</h1><p>推荐一个非常实用的学习正则表达式的网站，英文版和中文版都有，而且每一章节最后都有一个小练习帮助加深理解，预计一小时就能学习通关。本文中的代码和举例大部分来自该英文网站。</p>
+<p>英文版地址：<a target="_blank" rel="noopener" href="https://regexone.com/">https://regexone.com/</a><br><img src="/2024/08/16/%E8%BD%BB%E6%9D%BE%E6%90%9E%E5%AE%9A%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%BB%A5%E5%8F%8A%E5%9C%A8python%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/image-20240816230438270.png" srcset="/img/loading.gif" lazyload></p>
+<p>中文版地址：<a target="_blank" rel="noopener" href="https://imageslr.github.io/regexone-cn/">https://imageslr.github.io/regexone-cn/</a><br><img src="/2024/08/16/%E8%BD%BB%E6%9D%BE%E6%90%9E%E5%AE%9A%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%BB%A5%E5%8F%8A%E5%9C%A8python%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/image-20240816230452151.png" srcset="/img/loading.gif" lazyload></p>
+<h1 id="python中使用正则表达式"><a href="#python中使用正则表达式" class="headerlink" title="python中使用正则表达式"></a>python中使用正则表达式</h1><p>在python中使用正则表达式时，需要先引入re模块，配合re中的函数使用。</p>
+<p>一般使用正则表达式有几个使用场景：匹配一次提取子串、查找和替换字符串中的匹配项、提取多个子串。</p>
+<h2 id="01-匹配一次提取子串"><a href="#01-匹配一次提取子串" class="headerlink" title="01 匹配一次提取子串"></a>01 匹配一次提取子串</h2><p>一般使用re模块中的match和search函数。</p>
+<ul>
+<li><p><code>re.match(匹配模式pattern，待匹配字符串input_str，标志位flags)</code>：从字符串起始位置开始匹配，成功返回匹配的对象，不成功返回None。</p>
+</li>
+<li><p><code>re.search(匹配模式pattern，待匹配字符串input_str，标志位flags)</code>：扫描整个字符串并返回第一个成功的匹配对象，不成功返回None。</p>
+</li>
+</ul>
+<p>其中，可选参数flags是用来指定正则表达式中的修饰符的，比如是否区分大小写、多行匹配等。由于re.match函数是从字符串开头开始匹配，如果要匹配的内容不在开头，则匹配失败。</p>
+<p>设定一个应用场景：</p>
+<blockquote>
+<p>匹配”June 24”形式的日期，并分别返回月份和天。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> re <span class="hljs-comment">#定义正则表达式</span><br><span class="hljs-comment">#r表示原生字符串，使用r时表达式中表示\就不需要在前面再加一个转义字符\</span><br>regex = <span class="hljs-string">r&quot;([a-zA-Z]+) (\d+)&quot;</span>  <br><span class="hljs-keyword">if</span> re.search(regex, <span class="hljs-string">&quot;Today is June 24&quot;</span>):    <br>	<span class="hljs-keyword">match</span> = re.search(regex, <span class="hljs-string">&quot;June 24&quot;</span>)    <br>	<span class="hljs-comment">#返回匹配子串的起始和结束位置    </span><br>	<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Match at index %s, %s&quot;</span> % (<span class="hljs-keyword">match</span>.start(), <span class="hljs-keyword">match</span>.end()))    <br>	<span class="hljs-comment">#返回子串时可以结合group()函数使用    </span><br>	<span class="hljs-comment"># group(0)返回全部字符串    </span><br>	<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Full match: %s&quot;</span> % (<span class="hljs-keyword">match</span>.group(<span class="hljs-number">0</span>)))    <br>	<span class="hljs-comment"># group(1)返回第1个捕获组    </span><br>	<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Month: %s&quot;</span> % (<span class="hljs-keyword">match</span>.group(<span class="hljs-number">1</span>)))    <br>	<span class="hljs-comment"># group(2)返回第2个捕获组    </span><br>	<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Day: %s&quot;</span> % (<span class="hljs-keyword">match</span>.group(<span class="hljs-number">2</span>)))<br><br></code></pre></td></tr></table></figure>
+
+<h2 id="02-查找和替换字符串中的匹配项"><a href="#02-查找和替换字符串中的匹配项" class="headerlink" title="02 查找和替换字符串中的匹配项"></a>02 查找和替换字符串中的匹配项</h2><p>用到re.sub函数:</p>
+<ul>
+<li><code>re.sub(匹配模式pattern, 替换子串或函数repl, 待匹配字符串input_str, 替换次数count=0, 标志位flags=0)</code>：可选参数count&#x3D;0则默认全部替换。</li>
+</ul>
+<p>通过替换还可以实现删除特定字符串和重排序的功能。</p>
+<p>设定应用场景：</p>
+<blockquote>
+<p>给定一系列“June 24”形式的日期，并将日期形式改成“24 of June”</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> re  <br>regex = <span class="hljs-string">r&quot;([a-zA-Z]+) (\d+)&quot;</span>  <br><span class="hljs-built_in">print</span>(re.sub(regex, <span class="hljs-string">r&quot;\2 of \1&quot;</span>, <span class="hljs-string">&quot;June 24, August 9, Dec 12&quot;</span>))<br></code></pre></td></tr></table></figure>
+
+<h2 id="03-提取多个子串"><a href="#03-提取多个子串" class="headerlink" title="03 提取多个子串"></a>03 提取多个子串</h2><p>re.search()函数只能返回第一个成功的匹配，而re.findall()则能实现全局的搜索。</p>
+<ul>
+<li><p><code>re.findall(匹配模式pattern, 待匹配字符串input_str, 标志位flags=0)</code>：返回符合匹配的子串列表。</p>
+</li>
+<li><p><code>re.finditer(匹配模式pattern, 待匹配字符串input_str, 标志位flags=0)</code>：将所有匹配子串作为迭代器返回。</p>
+</li>
+</ul>
+<p><code>import re   regex = r&quot;[a-zA-Z]+ \d+&quot;   matchList = re.findall(regex, &quot;June 24, August 9, Dec 12&quot;)   for match in matchList:       print(&quot;Full match: %s&quot; % (match))   #使用finditer   matchList = re.finditer(regex, &quot;June 24, August 9, Dec 12&quot;)   for match in matchList:       print(&quot;Match at index: %s, %s&quot; % (match.start(), match.end()))   </code></p>
+<h3 id="使用re-compile函数"><a href="#使用re-compile函数" class="headerlink" title="使用re.compile函数"></a>使用re.compile函数</h3><p>正则表达式还有另一种使用形式——将正则表达式编译为正则表达式对象，方便后续调用及提高效率，可以配合match、findall等函数使用。</p>
+<ul>
+<li><code>re.compile(正则表达式pattern, 标志位flags)</code></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> re  <br>regex = <span class="hljs-string">r&quot;[a-zA-Z]+ \d+&quot;</span>  <br>matchList = re.findall(regex, <span class="hljs-string">&quot;June 24, August 9, Dec 12&quot;</span>)  <br><span class="hljs-keyword">for</span> <span class="hljs-keyword">match</span> <span class="hljs-keyword">in</span> matchList:  <br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Full match: %s&quot;</span> % (<span class="hljs-keyword">match</span>))  <br><span class="hljs-comment">#使用finditer  </span><br>matchList = re.finditer(regex, <span class="hljs-string">&quot;June 24, August 9, Dec 12&quot;</span>)  <br><span class="hljs-keyword">for</span> <span class="hljs-keyword">match</span> <span class="hljs-keyword">in</span> matchList:  <br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Match at index: %s, %s&quot;</span> % (<span class="hljs-keyword">match</span>.start(), <span class="hljs-keyword">match</span>.end()))<br></code></pre></td></tr></table></figure>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="print-no-link">#正则表达式</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>轻松搞定正则表达式以及在python中的使用</div>
+      <div>http://example.com/2024/08/16/轻松搞定正则表达式以及在python中的使用/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>羽飞Lexie</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年8月16日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/08/16/%E4%B8%80%E4%BB%BDgit%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%97%EF%BC%8C%E8%AF%B7%E6%9F%A5%E6%94%B6/" title="一份git学习指南，请查收">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">一份git学习指南，请查收</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/08/16/%E8%BD%BB%E6%9D%BE%E6%90%9E%E6%87%82%E9%BE%9F%E5%85%94%E8%B5%9B%E8%B7%91%E7%AE%97%E6%B3%95%EF%BC%88%E9%99%84python%E5%AE%9E%E7%8E%B0/" title="轻松搞懂龟兔赛跑算法（附python实现">
+                        <span class="hidden-mobile">轻松搞懂龟兔赛跑算法（附python实现</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

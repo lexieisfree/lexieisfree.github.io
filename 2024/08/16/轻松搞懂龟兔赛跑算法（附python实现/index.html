@@ -1,0 +1,683 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="羽飞Lexie">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前段时间看肉食动物的漫才脱口秀讲到龟兔赛跑的故事，别小看龟兔赛跑这么个故事，用到链表中能发挥很大的作用，不仅可以用来检测链表是否存在环路，还能提供断开环路的方法，这就是龟兔赛跑算法（tortoise-and-hare algorithm），也称为 Floyd 判圈算法（Floyd’s cycle finding algorithm）。 算法原理假设存在一个链表，有一只乌龟和一只兔子都从链表的头节点">
+<meta property="og:type" content="article">
+<meta property="og:title" content="轻松搞懂龟兔赛跑算法（附python实现">
+<meta property="og:url" content="http://example.com/2024/08/16/%E8%BD%BB%E6%9D%BE%E6%90%9E%E6%87%82%E9%BE%9F%E5%85%94%E8%B5%9B%E8%B7%91%E7%AE%97%E6%B3%95%EF%BC%88%E9%99%84python%E5%AE%9E%E7%8E%B0/index.html">
+<meta property="og:site_name" content="羽飞的博客">
+<meta property="og:description" content="前段时间看肉食动物的漫才脱口秀讲到龟兔赛跑的故事，别小看龟兔赛跑这么个故事，用到链表中能发挥很大的作用，不仅可以用来检测链表是否存在环路，还能提供断开环路的方法，这就是龟兔赛跑算法（tortoise-and-hare algorithm），也称为 Floyd 判圈算法（Floyd’s cycle finding algorithm）。 算法原理假设存在一个链表，有一只乌龟和一只兔子都从链表的头节点">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2024/08/16/%E8%BD%BB%E6%9D%BE%E6%90%9E%E6%87%82%E9%BE%9F%E5%85%94%E8%B5%9B%E8%B7%91%E7%AE%97%E6%B3%95%EF%BC%88%E9%99%84python%E5%AE%9E%E7%8E%B0/image-20240816230020929.png">
+<meta property="og:image" content="http://example.com/2024/08/16/%E8%BD%BB%E6%9D%BE%E6%90%9E%E6%87%82%E9%BE%9F%E5%85%94%E8%B5%9B%E8%B7%91%E7%AE%97%E6%B3%95%EF%BC%88%E9%99%84python%E5%AE%9E%E7%8E%B0/image-20240816230107419.png">
+<meta property="og:image" content="http://example.com/2024/08/16/%E8%BD%BB%E6%9D%BE%E6%90%9E%E6%87%82%E9%BE%9F%E5%85%94%E8%B5%9B%E8%B7%91%E7%AE%97%E6%B3%95%EF%BC%88%E9%99%84python%E5%AE%9E%E7%8E%B0/image-20240816230131790.png">
+<meta property="article:published_time" content="2024-08-16T14:59:22.000Z">
+<meta property="article:modified_time" content="2024-08-16T15:02:11.046Z">
+<meta property="article:author" content="羽飞Lexie">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2024/08/16/%E8%BD%BB%E6%9D%BE%E6%90%9E%E6%87%82%E9%BE%9F%E5%85%94%E8%B5%9B%E8%B7%91%E7%AE%97%E6%B3%95%EF%BC%88%E9%99%84python%E5%AE%9E%E7%8E%B0/image-20240816230020929.png">
+  
+  
+  
+  <title>轻松搞懂龟兔赛跑算法（附python实现 - 羽飞的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>羽飞的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="轻松搞懂龟兔赛跑算法（附python实现"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-08-16 22:59" pubdate>
+          2024年8月16日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          13 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">轻松搞懂龟兔赛跑算法（附python实现</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>前段时间看肉食动物的漫才脱口秀讲到龟兔赛跑的故事，别小看龟兔赛跑这么个故事，用到链表中能发挥很大的作用，不仅可以用来检测链表是否存在环路，还能提供断开环路的方法，这就是龟兔赛跑算法（tortoise-and-hare algorithm），也称为 Floyd 判圈算法（Floyd’s cycle finding algorithm）。</p>
+<h1 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h1><p>假设存在一个链表，有一只乌龟和一只兔子都从链表的头节点出发，乌龟每步移动一个节点，兔子每步移动 2 个节点。如果链表存在环路，那么兔子先进入环路，并在环路中绕圈圈，乌龟虽然慢点儿，但最终也会进入环路，两者的速度不一样，所以迟早会相遇，相遇了，那链表存在环路这个事儿就被检测出来了。</p>
+<p><img src="/2024/08/16/%E8%BD%BB%E6%9D%BE%E6%90%9E%E6%87%82%E9%BE%9F%E5%85%94%E8%B5%9B%E8%B7%91%E7%AE%97%E6%B3%95%EF%BC%88%E9%99%84python%E5%AE%9E%E7%8E%B0/image-20240816230020929.png" srcset="/img/loading.gif" lazyload alt="图1  T为乌龟进入环路前经过的步数，H为环路开始位置到兔子的距离"></p>
+<p>那如何把这个环路断开呢？咱们需要知道两个东西：</p>
+<ol>
+<li><p>环路的起点在哪儿？</p>
+</li>
+<li><p>环路的终点在哪里? 不急，回到上面那张图，咱们先假设几个未知数：</p>
+</li>
+</ol>
+<ul>
+<li><p><code>T</code>——乌龟进入环路前经过的节点数；</p>
+</li>
+<li><p><code>H</code>——乌龟走了 T 步后从环路开始位置到兔子位置的节点数；</p>
+</li>
+<li><p><code>L</code>——环路中的节点数；从图1来看，<code>T=4</code>（乌龟从哨兵节点出发），<code>H=4</code>，<code>L=5</code>。哨兵是链表的头结点，不存储值，用来简化边界条件。基于上述的设定，咱们可以推出两个<strong>重要事实</strong>：</p>
+</li>
+</ul>
+<ol>
+<li><p>乌龟走了<code>T</code>步后，兔子走了<code>2T</code>步，意味着兔子在环路中走了<code>T</code>步，此时兔子距离环路开始节点<code>H</code>步。&#x3D;&#x3D;&gt;<strong>如果从环路开始节点移动<code>T</code>个节点，那么距离环路开始节点 H 个节点。</strong></p>
+</li>
+<li><p>当乌龟进入环路时，兔子和乌龟相距<code>L-H</code>个节点，兔子每步比乌龟多移动 1 个节点，所以兔子将在<code>L-H</code>步后赶上乌龟。当两者相遇时，乌龟移动了<code>L-H</code>个节点，因此乌龟和兔子相遇的位置距离环路开始节点<code>L-(L-H)=H</code>个节点。&#x3D;&#x3D;&gt;<strong>乌龟和兔子相遇的节点距离环路开始位置 H 个节点。</strong></p>
+</li>
+</ol>
+<p>我们的目标是找到环路的起点和终点从而断开环路，但是<code>L、T、H</code>的值都是未知的，怎么办？</p>
+<p>有请龟小弟上场👏🏻，当乌龟和兔子在环路中相遇时，第二只小乌龟也就是龟小弟从哨兵节点出发，每步移动一个节点，兔子跑了那么多圈太累了不动了，前面的龟大哥继续每步移动一个节点。</p>
+<p><img src="/2024/08/16/%E8%BD%BB%E6%9D%BE%E6%90%9E%E6%87%82%E9%BE%9F%E5%85%94%E8%B5%9B%E8%B7%91%E7%AE%97%E6%B3%95%EF%BC%88%E9%99%84python%E5%AE%9E%E7%8E%B0/image-20240816230107419.png" srcset="/img/loading.gif" lazyload alt="图2 龟大哥和龟小弟的相遇"></p>
+<p>龟大哥和龟小弟最终在环路开始节点相遇。为什么恰好是环路开始节点呢？龟小弟走到环路开始节点需要走<code>T</code>步，当龟小弟走了<code>T</code>步后，龟大哥则是从相遇的节点也走了<code>T</code>步，此时龟大哥的位置在哪儿呢？</p>
+<p>先看<strong>重要事实1：如果从环路开始节点移动<code>T</code>个节点，那么距离环路开始节点<code>H</code>个节点。</strong>那么龟大哥此时应该距离相遇的节点<code>H</code>个节点。</p>
+<p>再看<strong>重要事实2：乌龟和兔子相遇的节点距离环路开始位置<code>H</code>个节点。</strong>对了，龟大哥此时距离环路开始节点恰好<code>H</code>个节点，所以当龟小弟走到环路开始节点时，龟大哥也正好走到了环路开始节点！</p>
+<p>根据上述事实，可以推出：</p>
+<ol>
+<li><p>环路的起点在哪儿？——龟大哥和龟小弟相遇的节点就是环路开始的节点。</p>
+</li>
+<li><p>环路终点在哪里？很好解决，龟大哥和龟小弟在环路起点相遇后，兔子休息够了，从和龟大哥的相遇点开始走，直到下一个节点为龟大哥，那么兔子所在节点即为环路终点。</p>
+</li>
+</ol>
+<p><img src="/2024/08/16/%E8%BD%BB%E6%9D%BE%E6%90%9E%E6%87%82%E9%BE%9F%E5%85%94%E8%B5%9B%E8%B7%91%E7%AE%97%E6%B3%95%EF%BC%88%E9%99%84python%E5%AE%9E%E7%8E%B0/image-20240816230131790.png" srcset="/img/loading.gif" lazyload alt="图3 兔子到达环路终点"></p>
+<p>环路的起点和终点都明确了，将起点和终点间的链接断开，则环路断开，问题解决！</p>
+<p>原理说完了，来看看用python代码如何实现吧。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Cell</span>:  <br>    <span class="hljs-string">&quot;&quot;&quot;定义链表节点类&quot;&quot;&quot;</span>  <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, value, <span class="hljs-built_in">next</span></span>):  <br>        self.value = value  <br>        self.<span class="hljs-built_in">next</span> = <span class="hljs-built_in">next</span>  <br>      <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__str__</span>(<span class="hljs-params">self</span>):  <br>        <span class="hljs-keyword">return</span> <span class="hljs-string">f&quot;<span class="hljs-subst">&#123;self.value&#125;</span>&quot;</span>  <br>  <br>  <br><span class="hljs-keyword">def</span> <span class="hljs-title function_">has_loop_tortoise_and_hare</span>(<span class="hljs-params">sentinel</span>):  <br>    <span class="hljs-string">&quot;&quot;&quot;  </span><br><span class="hljs-string">    输入是链表的哨兵节点  </span><br><span class="hljs-string">    存在环路返回True，并断开环路  </span><br><span class="hljs-string">    &quot;&quot;&quot;</span>  <br>    <span class="hljs-comment"># 乌龟从哨兵节点出发，兔子从第一个节点出发  </span><br>    <span class="hljs-comment"># 简化边界条件，不影响环路判断  </span><br>    tortoise = sentinel  <br>    hare = sentinel.<span class="hljs-built_in">next</span>  <br>    <span class="hljs-keyword">while</span> tortoise != hare:  <br>        <span class="hljs-comment"># 当兔子到达链表末尾时，不存在环路.  </span><br>        <span class="hljs-comment"># 由于兔子每次移动两个节点，所以需要判断当前和下一个节点  </span><br>        <span class="hljs-keyword">if</span> (hare == <span class="hljs-literal">None</span>) <span class="hljs-keyword">or</span> (hare.<span class="hljs-built_in">next</span> == <span class="hljs-literal">None</span>):  <br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span>  <br>  <br>        <span class="hljs-comment"># 乌龟每步移动1个节点，兔子每步移动2个节点.  </span><br>        tortoise = tortoise.<span class="hljs-built_in">next</span>  <br>        hare = hare.<span class="hljs-built_in">next</span>.<span class="hljs-built_in">next</span>  <br>      <br>    <span class="hljs-comment"># 兔子和乌龟相遇后，第二只乌龟从哨兵节点出发  </span><br>    <span class="hljs-comment"># 第一只乌龟从相遇后下一个节点出发，抵消一开始比兔子多走的一步  </span><br>    new_tortoise = sentinel  <br>    tortoise = tortoise.<span class="hljs-built_in">next</span>   <br>    <span class="hljs-keyword">while</span> tortoise != new_tortoise:  <br>        tortoise = tortoise.<span class="hljs-built_in">next</span>  <br>        new_tortoise = new_tortoise.<span class="hljs-built_in">next</span>  <br>  <br>    <span class="hljs-comment"># 两只乌龟在环路起点相遇，兔子开始每次移动一个节点，寻找环路终点  </span><br>    <span class="hljs-keyword">while</span> hare.<span class="hljs-built_in">next</span> != tortoise:  <br>        hare = hare.<span class="hljs-built_in">next</span>  <br>  <br>    <span class="hljs-comment"># 断开环路  </span><br>    hare.<span class="hljs-built_in">next</span> = <span class="hljs-literal">None</span>  <br>  <br>    <span class="hljs-comment"># 存在环路  </span><br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span><br></code></pre></td></tr></table></figure>
+<h1 id="算法复杂度分析"><a href="#算法复杂度分析" class="headerlink" title="算法复杂度分析"></a>算法复杂度分析</h1><p>兔子和乌龟本质就是快慢指针。由于慢指针最多走一遍单链表，所以该算法是线性级时间复杂度 O(n)；</p>
+<p>程序只需保存几个指针，还有环路的起点、终点，所以空间复杂度为 O(1)，是常数空间的算法。</p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><blockquote>
+<p>《算法基础：python 和 C#实现》罗德·斯蒂芬斯 著，余青宋 江红 余靖 译</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%AE%97%E6%B3%95/" class="print-no-link">#算法</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>轻松搞懂龟兔赛跑算法（附python实现</div>
+      <div>http://example.com/2024/08/16/轻松搞懂龟兔赛跑算法（附python实现/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>羽飞Lexie</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年8月16日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/08/16/%E8%BD%BB%E6%9D%BE%E6%90%9E%E5%AE%9A%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%BB%A5%E5%8F%8A%E5%9C%A8python%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/" title="轻松搞定正则表达式以及在python中的使用">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">轻松搞定正则表达式以及在python中的使用</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/08/16/elasticsearch%E5%92%8Ckibana%E7%9A%84%E4%BF%9D%E5%A7%86%E7%BA%A7%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/" title="elasticsearch和kibana的保姆级安装教程">
+                        <span class="hidden-mobile">elasticsearch和kibana的保姆级安装教程</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

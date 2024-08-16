@@ -1,0 +1,1378 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="羽飞Lexie">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="刘铁猛C#课程笔记 本课程开发环境为visual studio2013，P1-P2主要是简单的演示，建立对C#语言编程的认识，本笔记跳过前两节。  P3 初识类和命名空间（一）初识类（class）和名称空间（namespace） 类是程序的主体，包含状态（字段）和操作（方法和其他函数成员）。  名称空间&#x2F;命名空间，以实行结构组织类，解决类名冲突。   安装离线MSDN文档（VS2022">
+<meta property="og:type" content="article">
+<meta property="og:title" content="刘铁猛C#语言学习入门课程笔记">
+<meta property="og:url" content="http://example.com/2024/08/16/%E5%88%98%E9%93%81%E7%8C%9BC-%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="羽飞的博客">
+<meta property="og:description" content="刘铁猛C#课程笔记 本课程开发环境为visual studio2013，P1-P2主要是简单的演示，建立对C#语言编程的认识，本笔记跳过前两节。  P3 初识类和命名空间（一）初识类（class）和名称空间（namespace） 类是程序的主体，包含状态（字段）和操作（方法和其他函数成员）。  名称空间&#x2F;命名空间，以实行结构组织类，解决类名冲突。   安装离线MSDN文档（VS2022">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2024/08/16/%E5%88%98%E9%93%81%E7%8C%9BC-%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/image-20240816231327751.png">
+<meta property="og:image" content="http://example.com/2024/08/16/%E5%88%98%E9%93%81%E7%8C%9BC-%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/image-20240816231346508.png">
+<meta property="article:published_time" content="2024-08-16T15:12:16.000Z">
+<meta property="article:modified_time" content="2024-08-16T15:13:46.859Z">
+<meta property="article:author" content="羽飞Lexie">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2024/08/16/%E5%88%98%E9%93%81%E7%8C%9BC-%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/image-20240816231327751.png">
+  
+  
+  
+  <title>刘铁猛C#语言学习入门课程笔记 - 羽飞的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>羽飞的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="刘铁猛C#语言学习入门课程笔记"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-08-16 23:12" pubdate>
+          2024年8月16日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          67 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">刘铁猛C#语言学习入门课程笔记</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>刘铁猛C#课程笔记 本课程开发环境为visual studio2013，P1-P2主要是简单的演示，建立对C#语言编程的认识，本笔记跳过前两节。</p>
+</blockquote>
+<h1 id="P3-初识类和命名空间"><a href="#P3-初识类和命名空间" class="headerlink" title="P3 初识类和命名空间"></a>P3 初识类和命名空间</h1><h2 id="（一）初识类（class）和名称空间（namespace）"><a href="#（一）初识类（class）和名称空间（namespace）" class="headerlink" title="（一）初识类（class）和名称空间（namespace）"></a>（一）初识类（class）和名称空间（namespace）</h2><ul>
+<li><p>类是程序的主体，包含状态（字段）和操作（方法和其他函数成员）。</p>
+</li>
+<li><p>名称空间&#x2F;命名空间，以实行结构组织类，解决类名冲突。</p>
+<p>  安装离线MSDN文档（VS2022）：</p>
+<p>  工具-获取工具和功能-单个组件-Help Viewer-等待安装完毕</p>
+<p>  安装后，帮助-添加和移除帮助内容，选择需要的文档，联机更新。</p>
+</li>
+<li><p>C#是纯面向对象语言，程序一定要包含在类中。</p>
+</li>
+<li><p>如何查看方法所属的命名空间。——查看MSDN文档。</p>
+</li>
+</ul>
+<h2 id="（二）⭐️类库的引用"><a href="#（二）⭐️类库的引用" class="headerlink" title="（二）⭐️类库的引用"></a>（二）⭐️类库的引用</h2><p>软件的质量很大程度上取决于依赖关系，尽量使用弱依赖关系，更加清晰、易于维护。</p>
+<p>使用类库就产生了依赖关系。</p>
+<ul>
+<li>类库引用是使用名称空间的物理基础。不同技术类型的项目会默认引用不同的类库。存在两种引用——DLL引用和项目引用。</li>
+</ul>
+<h3 id="DLL引用（无源代码，黑盒引用）"><a href="#DLL引用（无源代码，黑盒引用）" class="headerlink" title="DLL引用（无源代码，黑盒引用）"></a>DLL引用（无源代码，黑盒引用）</h3><ol>
+<li><p>直接引用dll，一定要有相应的文档（说明包含的名称空间和类，以及类的方法）。</p>
+</li>
+<li><p>操作：引用-添加引用-浏览</p>
+</li>
+<li><p>NuGet技术</p>
+</li>
+<li><p>解决的问题：如果只有DLL，蒙着眼睛引用类库，底层依赖不清晰，可能导致没完没了地添加引用。</p>
+</li>
+<li><p>思路：类库以包的形式发布到网上，一个命令直接引用一组类库。更加安全、高效</p>
+</li>
+<li><p>例子：Entity Framework实体框架类库</p>
+</li>
+</ol>
+<h3 id="项目引用（有源代码，白盒引用）"><a href="#项目引用（有源代码，白盒引用）" class="headerlink" title="项目引用（有源代码，白盒引用）"></a>项目引用（有源代码，白盒引用）</h3><ul>
+<li><p>操作：先右键solution-add existing project，再添加引用</p>
+</li>
+<li><p>一个项目隶属于不同的solution，称为项目的重用</p>
+</li>
+<li><p>solution和project的区别</p>
+</li>
+<li><p>solution是针对客户需求的总的解决方案，就像汽车经销商需要一套销售软件。</p>
+</li>
+<li><p>project解决具体的问题</p>
+</li>
+</ul>
+<h3 id="自己建类库项目"><a href="#自己建类库项目" class="headerlink" title="自己建类库项目"></a>自己建类库项目</h3><ul>
+<li><p>操作：右键solution-add new project-Class Library（不包含可执行程序）</p>
+</li>
+<li><p>引用时在cs文件中添加相应的名称空间，调用方法时 “类名.方法名”</p>
+</li>
+</ul>
+<h3 id="依赖关系（类或对象之间的耦合关系）"><a href="#依赖关系（类或对象之间的耦合关系）" class="headerlink" title="依赖关系（类或对象之间的耦合关系）"></a>依赖关系（类或对象之间的耦合关系）</h3><ul>
+<li><p>优秀的程序追求“高内聚，低耦合”。高内聚指数据和功能精确地放到对应类。</p>
+</li>
+<li><p>使用UML（通用建模语言）类图展示依赖关系。</p>
+</li>
+<li><p>如何排除错误？</p>
+</li>
+<li><p>仔细阅读编译器的报错</p>
+</li>
+<li><p>MSDN文档与搜索引擎相结合</p>
+</li>
+</ul>
+<h1 id="P4-类-对象-成员"><a href="#P4-类-对象-成员" class="headerlink" title="P4 类 对象 成员"></a>P4 类 对象 成员</h1><h2 id="（一）类是现实世界事物的模型。"><a href="#（一）类是现实世界事物的模型。" class="headerlink" title="（一）类是现实世界事物的模型。"></a>（一）类是现实世界事物的模型。</h2><ul>
+<li><p>类是对现实世界事物进行抽象得到的结果。</p>
+</li>
+<li><p>事物包括“物质”（实体）和“运动”（逻辑）。</p>
+</li>
+<li><p>建模是一个去伪存真、由表及里的过程。</p>
+</li>
+</ul>
+<h2 id="（二）⭐️类与对象的关系"><a href="#（二）⭐️类与对象的关系" class="headerlink" title="（二）⭐️类与对象的关系"></a>（二）⭐️类与对象的关系</h2><blockquote>
+<p>什么时候叫对象？什么时候叫实例？</p>
+</blockquote>
+<ol>
+<li><p>对象也称为实例，是类经过“实例化”后得到的内存中的实体。</p>
+</li>
+<li><p>对象和实例是一回事。</p>
+</li>
+<li><p>有些类不能实例化，比如“Math”。</p>
+</li>
+<li><p>依照类，我们可以创建对象，这就是“实例化”。</p>
+</li>
+<li><p>现实世界常称对象，程序世界常称“实例”。</p>
+</li>
+<li><p>二者没有太大区别，经常混用。</p>
+</li>
+<li><p>使用new操作符创建类的实例。</p>
+</li>
+<li><p>引用变量与实例的关系</p>
+<p> <code>Form myForm = new Form();   </code></p>
+<p> <code>(new Form()).ShowDialog();   </code></p>
+<p> <code>Form myForm2 = myForm;   </code></p>
+</li>
+<li><p>多个孩子可以使用各自的绳子牵着同一个气球，也可以用同一个绳子牵同一个气球。</p>
+</li>
+<li><p>起球不一定有孩子牵着；</p>
+</li>
+<li><p>类似孩子与起球；</p>
+</li>
+</ol>
+<h2 id="（三）类的三大成员：属性、方法、事件"><a href="#（三）类的三大成员：属性、方法、事件" class="headerlink" title="（三）类的三大成员：属性、方法、事件"></a>（三）类的三大成员：属性、方法、事件</h2><ol>
+<li><p>属性（Property）</p>
+</li>
+<li><p>存储数据，组合起来表示类或对象当前的状态；</p>
+</li>
+<li><p>方法（Method）</p>
+</li>
+<li><p>由C语言中的函数（function）进化而来，表示类或对象（能做什么）。</p>
+</li>
+<li><p>工作中90%的时间是与方法打交道，因为它是“真正做事、构成逻辑”的成员。</p>
+</li>
+<li><p>事件（Event）</p>
+</li>
+<li><p>类或对象通知其他类或其他对象的机制，C#所特有（Java通过其他方法实现）。</p>
+</li>
+<li><p>非必需，但能使成员更加方便、灵活，同时也容易导致滥用。</p>
+</li>
+<li><p>某些特殊类或对象在成员方面侧重点不同</p>
+</li>
+<li><p>模型类或对象重在属性：如Entity Framework；</p>
+</li>
+<li><p>工具类或对象重在方法：如Math、Console；</p>
+</li>
+<li><p>通知类或对象重在事件：如各种Timer；</p>
+</li>
+<li><p>MSDN文档的使用——建议跟视频学习。</p>
+</li>
+</ol>
+<h2 id="（四）静态成员与实例成员"><a href="#（四）静态成员与实例成员" class="headerlink" title="（四）静态成员与实例成员"></a>（四）静态成员与实例成员</h2><ul>
+<li><p>静态（Static）成员在语义上表示它是“类的成员”。</p>
+</li>
+<li><p>实例（非静态）成员在语义上表示它是“对象的成员”。</p>
+</li>
+<li><p>绑定（Binding）指的是编译器把一个成员与类或对象关联起来。</p>
+</li>
+<li><p>成员访问操作符“.”</p>
+</li>
+</ul>
+<h1 id="P5-C-基本元素概览-初识类型、变量与方法-算法简介"><a href="#P5-C-基本元素概览-初识类型、变量与方法-算法简介" class="headerlink" title="P5 C#基本元素概览 初识类型、变量与方法 算法简介"></a>P5 C#基本元素概览 初识类型、变量与方法 算法简介</h1><ol>
+<li>构成C#语言的基本元素——与Java相似</li>
+</ol>
+<ul>
+<li><p>整数多种后缀：int x &#x3D;2; long y &#x3D; 3l;</p>
+</li>
+<li><p>实数多种后缀：double y &#x3D; 4.0D;</p>
+</li>
+<li><p>字符</p>
+</li>
+<li><p>字符串</p>
+</li>
+<li><p>布尔</p>
+</li>
+<li><p>空null</p>
+</li>
+<li><p>合法标识符</p>
+</li>
+<li><p>大小写规范</p>
+</li>
+<li><p>命名规范</p>
+</li>
+<li><p>C#的类、方法、命名空间都采用Pascal命名法——构成标识符的所有单词首字母大写。</p>
+</li>
+<li><p>Java采用驼峰法命名——第一个单词首字母小写，其余首字母大写</p>
+</li>
+<li><p>可查阅MSDN、C# Reference两个文档</p>
+</li>
+</ul>
+<ol>
+<li><p>关键字——构成语言的基本词汇</p>
+</li>
+<li><p>操作符</p>
+</li>
+<li><p>标识符</p>
+</li>
+<li><p>标点符号</p>
+</li>
+<li><p>文本</p>
+</li>
+<li><p>注释与空白</p>
+</li>
+<li><p>类型、变量和方法</p>
+</li>
+<li><p>方法的声明</p>
+</li>
+<li><p>方法的调用</p>
+</li>
+<li><p>变量的声明</p>
+</li>
+<li><p>变量的使用</p>
+</li>
+<li><p>类型（Type）&#x2F;DataType数据的类型</p>
+</li>
+<li><p>变量是存放数据的地方，简称“数据”。</p>
+</li>
+<li><p>方法（旧称函数）是处理数据的逻辑，又称为“算法”</p>
+</li>
+<li><p>程序&#x3D;数据+算法，如循环、递归</p>
+</li>
+</ol>
+<h1 id="P6-P7-类型、变量与对象"><a href="#P6-P7-类型、变量与对象" class="headerlink" title="P6-P7 类型、变量与对象"></a>P6-P7 类型、变量与对象</h1><h2 id="（一）什么是类型？"><a href="#（一）什么是类型？" class="headerlink" title="（一）什么是类型？"></a>（一）什么是类型？</h2><ol>
+<li><p>类型的概念</p>
+</li>
+<li><p>是数据在内存（内部存储单元）中存储的“型号”；</p>
+</li>
+<li><p>小内存容纳大尺度数据会丢失精度，发生错误；</p>
+</li>
+<li><p>大内存容纳小尺寸数据会导致浪费。</p>
+</li>
+<li><p>强类型语言VS.弱类型语言</p>
+</li>
+<li><p>引入dynamic机制，不同于var</p>
+</li>
+<li><p>C#是一种强类型语言（数据受到类型的严格约束）</p>
+</li>
+<li><p>JavaScript是彻底的弱类型语言&#x2F;动态语言</p>
+</li>
+<li><p>C#对弱类型&#x2F;动态类型的模仿</p>
+</li>
+</ol>
+<h2 id="（二）类型在C-语言中的作用"><a href="#（二）类型在C-语言中的作用" class="headerlink" title="（二）类型在C#语言中的作用"></a>（二）类型在C#语言中的作用</h2><ol>
+<li><p>一个C#类型所包含的信息有</p>
+<p> <code>Type myType = typeof(Form);   PropertyInfo[] pInfos = myType.GetProperties();   MethodInfo[] mInfos = myType.GetMethods();   foreach(var m in mInfos)   &#123;       Console.WriteLine(m.Name);   &#125;   </code></p>
+</li>
+<li><p>此类型所允许的操作（运算）</p>
+</li>
+<li><p>程序运行的时候，此类型的变量分配在内存什么位置？</p>
+</li>
+<li><p>静态用处</p>
+</li>
+<li><p>动态用处——反射</p>
+</li>
+<li><p>存储类型变量所需的内存空间大小。</p>
+</li>
+<li><p>此类型的值可表示的最大、最小值范围。当最高位为符号位时，表示的范围会缩小。</p>
+</li>
+<li><p>此类型所包含的成员、比如方法、属性、事件等等。类型知道自己包含哪些成员有两大用处：</p>
+<blockquote>
+<p>程序的静态和动态：程序未运行时处于静态时期，也就是编辑期和编译期，动态指程序运行期。</p>
+</blockquote>
+</li>
+<li><p>此类型由何基类派生而来。</p>
+</li>
+</ol>
+<p>内存分为两个区域：</p>
+<ul>
+<li><p>栈stack——作用：给方法调用，1-2MB，速度快</p>
+</li>
+<li><p>堆Heap——作用：存储对象&#x2F;实例，几个GB</p>
+</li>
+</ul>
+<p>Stack爆掉的几个情况：</p>
+<ul>
+<li><p>算法没写好，函数调用太多，例如递归程序只递不归。</p>
+</li>
+<li><p>程序错误，不小心在栈上分配太多内存。</p>
+</li>
+</ul>
+<p>int*p &#x3D; stackalloc int[9999999];</p>
+<p>Heap很大，但是分配太多对象忘记回收时会造成内存的浪费——内存泄漏</p>
+<p>与C&#x2F;C++相比，C#有垃圾回收器，C&#x2F;C++需要手动回收。</p>
+<p>使用Performance Monitor（win+R，输入perform）查看进程的堆内存使用量。——建议跟着视频操作。（一个程序从硬盘加载到内存称为进程，即正在运行的实例）。</p>
+<h2 id="（三）C-的类型系统"><a href="#（三）C-的类型系统" class="headerlink" title="（三）C#的类型系统"></a>（三）C#的类型系统</h2><h3 id="五大数据类型"><a href="#五大数据类型" class="headerlink" title="五大数据类型"></a>五大数据类型</h3><ol>
+<li><p>类（classes）：如Window、Form、Console、String</p>
+</li>
+<li><p>结构体（Structures）：如Int32、Int64、Single（单精度浮点型）、Double</p>
+</li>
+</ol>
+<blockquote>
+<p>C#将常用的数据类型吸收为关键字，如int, long</p>
+</blockquote>
+<ol start="3">
+<li><p>枚举（Enumerations）：如HorizontalAlignment、Visibility</p>
+</li>
+<li><p>接口（InterFaces）</p>
+</li>
+<li><p>委托（Delegates）</p>
+</li>
+<li><p>如何查看数据类型</p>
+</li>
+<li><p>看MSDN文档</p>
+</li>
+<li><p>用typeof获取</p>
+</li>
+<li><p>在类型上右键-go to definition（F12）</p>
+</li>
+<li><p>枚举类型 enum关键字</p>
+</li>
+</ol>
+<p>限定只能从一个集合中取有效值</p>
+<h3 id="C-类型的派生谱系"><a href="#C-类型的派生谱系" class="headerlink" title="C#类型的派生谱系"></a>C#类型的派生谱系</h3><p><img src="/2024/08/16/%E5%88%98%E9%93%81%E7%8C%9BC-%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/image-20240816231327751.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li><p>C#类型系统分为引用类型和值类型，引用类型包括类、接口和委托，值类型包括结构体和枚举。所有类型都以Object类型为基类型。</p>
+</li>
+<li><p>右边三组是关键字，第一组是引用类型（标蓝色的是真正的DataType），第二组是值类型（标蓝色的是基本的数据类型）。</p>
+</li>
+</ul>
+<h2 id="（四）变量、对象与内存"><a href="#（四）变量、对象与内存" class="headerlink" title="（四）变量、对象与内存"></a>（四）变量、对象与内存</h2><ol>
+<li><p>什么是变量？</p>
+<p> <code>(有效的修饰符组合)opt 类型 变量名 （初始化器）opt   opt-代表可选   例子： public static int Amount = 0;   </code></p>
+<p> 总结：变量&#x3D;以变量名所对应的内存地址为起点、以其数据类型所要求的存储空间为长度的一块内存区域。</p>
+<p> 为什么要区分引用类型和值类型？——在内存中的存储方式不同。</p>
+</li>
+<li><p>从表面看（从C#代码的上下文看），变量的用途是存储数据。</p>
+</li>
+<li><p>实际上，变量表示了存储位置，并且每一个变量都有一个类型，以决定什么样的值能存进变量。</p>
+</li>
+<li><p>变量一共有7种：静态变量、实例变量（非静态成员变量、字段）、数组元组、值参数、引用参数、输出参数、局部变量。</p>
+</li>
+<li><p>狭义的变量指的是局部变量，因为其他变量都有自己的约定名称。局部变量是方法体（函数体）中声明的变量。</p>
+</li>
+<li><p>变量的有效声明</p>
+</li>
+<li><p>值类型变量</p>
+<p> <code>int x;等价于 int x = new int();   </code></p>
+</li>
+<li><p>内存中有一块区域是操作系统保留，其他程序不能占用。剩下的区域分为栈和堆。</p>
+</li>
+<li><p>变量存储时遵循“高高低低原则”：字节高位存储到高地址，这样就将符号位放到最高位。</p>
+</li>
+<li><p>值类型直接在栈中按实际内存大小分配内存 存储变量。</p>
+</li>
+<li><p>以byte&#x2F;sbyte&#x2F;short&#x2F;ushort为例，分别代表四种结构体类型。计算机最小单位是bit，一个bit位只能存取一个二进制数字，要么是0要么是1.因为比特位的存储能力太有限，因此计算机科学中以8个bit位为1个字节（byte），以字节为基本单位存取数据，而且为内存中每个字节都准备了编号，寻找编号的过程就叫寻址。</p>
+</li>
+<li><p>⭐️操作系统如何使用内存？——看视频用excel展示内存使用。</p>
+</li>
+<li><p>值类型没有实例，所谓的“实例”和变量合二为一。</p>
+</li>
+<li><p>引用类型的变量与实例的关系</p>
+</li>
+<li><p>引用类型的实例存在堆中，与实例绑定的引用变量存在栈中，引用变量的值是实例在堆中的地址。</p>
+</li>
+</ol>
+<p><code>class Student   &#123;       uint ID;  //4字节       ushort score; //2字节   &#125;      Student stu; //引用类型，未实例化，现在栈中默认分配4字节，并将这块内存全刷成0   stu = new Student(); //创建实例，在堆中分配6字节内存，将栈中的0变成堆中的地址。   </code></p>
+<ol start="4">
+<li><p>局部变量在stack上分配内存</p>
+</li>
+<li><p>变量的默认值</p>
+<p> 一旦变量在内存中分配好，通通刷成0。——C#的安全性。</p>
+</li>
+<li><p>常量：值不可改变的量</p>
+<p> 声明时加const关键字</p>
+</li>
+</ol>
+<h3 id="⭐️装箱和拆箱"><a href="#⭐️装箱和拆箱" class="headerlink" title="⭐️装箱和拆箱"></a>⭐️装箱和拆箱</h3><p>实际使用中较少，面试中较多，存在性能损失。</p>
+<h4 id="装箱"><a href="#装箱" class="headerlink" title="装箱"></a>装箱</h4><p>从栈上往堆上搬东西，要损失性能。</p>
+<p><code>int x = 100; //存在栈上   object obj; //不能将栈上x对应的区域变成100，因为变成object引用类型后100指向操作系统占用的内存。先拷贝值类型x的值，在堆上找一个空间创建对象。   obj = x; //将堆地址存储到obj对应的stack空间。   </code></p>
+<h4 id="拆箱"><a href="#拆箱" class="headerlink" title="拆箱"></a>拆箱</h4><p><code>object obj = x; //拷贝堆中的值   int y = (int)obj; //按int类型存在stack中   </code></p>
+<h1 id="P8-P9-方法的定义、调用与调试"><a href="#P8-P9-方法的定义、调用与调试" class="headerlink" title="P8-P9 方法的定义、调用与调试"></a>P8-P9 方法的定义、调用与调试</h1><h2 id="（一）方法的由来"><a href="#（一）方法的由来" class="headerlink" title="（一）方法的由来"></a>（一）方法的由来</h2><ol>
+<li><p>方法（method）的前身是C&#x2F;C++语言的函数（function）</p>
+<p> C++扩展了面向对象特性，同时又保留了C的特性，可以兼容C。</p>
+<p> 在C++中，可以在类之外创建函数，也可以在类中创建函数（也就是方法）。</p>
+<p> 在C++中创建一个类时，会生成两个文件，分别是.h和.cpp，.h中是对类的声明，.cpp中是对类的定义，C#中声明与定义不分家。</p>
+<p> C#、Java语言是纯面向对象语言，方法必须隶属于类。</p>
+<p> 当函数以类的成员形式出现时就成了方法。——函数到方法的过渡</p>
+</li>
+</ol>
+<ul>
+<li><p>引用标准库使用尖括号：#include</p>
+</li>
+<li><p>引用自定义库使用双引号：<code>#include &quot;Student.h&quot;</code></p>
+</li>
+</ul>
+<ol>
+<li><p>方法是面向对象范畴的概念，在非面向对象语言中仍然称为函数。</p>
+</li>
+<li><p>函数是如何演变成方法体的？</p>
+</li>
+<li><p>方法永远是类（或结构体）的成员</p>
+</li>
+<li><p>C#语言中函数不能独立于类（或结构体）之外。</p>
+</li>
+<li><p>只有作为类（或结构体）的成员时才能被称为方法。</p>
+</li>
+<li><p>C++中是可以的，被称为全局函数。</p>
+</li>
+<li><p>方法是类（或结构体）最基本的成员之一</p>
+<p> 面向对象语言将变量和函数封装为字段和方法，使它们变得更好理解、更好管理，能够比较自然地反映现实世界中事物运作的规律，这样写大型程序就不容易乱。</p>
+</li>
+<li><p>方法表示类（或结构体）“能做什么事情”。</p>
+</li>
+<li><p>最基本的成员只有两个——字段与方法（即成员变量与成员函数），本质还是<strong>数据+算法</strong>。</p>
+</li>
+<li><p>为什么需要方法和函数？</p>
+</li>
+<li><p>隐藏复杂的逻辑。</p>
+</li>
+<li><p>把大算法分解为小算法。</p>
+</li>
+<li><p>复用（resue，重用）。</p>
+</li>
+</ol>
+<h2 id="（二）方法的声明与调用"><a href="#（二）方法的声明与调用" class="headerlink" title="（二）方法的声明与调用"></a>（二）方法的声明与调用</h2><ol>
+<li><p>声明方法的语法详解</p>
+</li>
+<li><p>参见C#语言文档（声明&#x2F;定义不分家）</p>
+</li>
+<li><p>Parameter全称为“formal parameter”，形式参数（为什么叫形参？——参与构成算法的逻辑）</p>
+</li>
+<li><p>Parameter是一种变量</p>
+</li>
+<li><p>方法的命名规范</p>
+</li>
+<li><p>大小写规范——Pascal法（区别于Java的驼峰法）</p>
+</li>
+<li><p>以动词或动词短语作为方法名</p>
+</li>
+<li><p>重温静态方法和实例方法</p>
+</li>
+<li><p>非静态方法即实例方法，隶属于实例，与实例绑定，调用格式<code>实例引用变量.实例方法</code>。</p>
+</li>
+<li><p>静态方法隶属于类，与类绑定。调用时<code>类名.静态方法</code>。</p>
+</li>
+<li><p>调用方法</p>
+</li>
+<li><p>实际参数Argument，可理解为调用方法时的真实条件。</p>
+</li>
+<li><p>调用方法时的argument列表要与定义方法时的parameter列表相匹配。C#是强类型语言，argument是值、parameter是变量，值与变量不匹配编译器报错。</p>
+</li>
+</ol>
+<h2 id="（三）构造器（一种特殊的方法）"><a href="#（三）构造器（一种特殊的方法）" class="headerlink" title="（三）构造器（一种特殊的方法）"></a>（三）构造器（一种特殊的方法）</h2><ol>
+<li><p>构造器（constructor）是类型的成员之一。</p>
+</li>
+<li><p>类型成员包括字段、方法、C#扩展出的属性、事件等等。</p>
+</li>
+<li><p>方法是成员函数，构造器是构造函数。</p>
+</li>
+<li><p>狭义的构造器指的是实例构造器（instance constructor）。</p>
+<p> <code>Student stu = new Student(); //圆括号即是调用Student的构造器   </code></p>
+</li>
+<li><p>当声明一个类时，编译器会自动生成一个默认构造器。</p>
+</li>
+<li><p>声明和调用构造器</p>
+<p> <code>class Student   &#123;       public Student(int id) //在别的类中调用所以是public，无返回值       &#123;           this.ID = id;           this.Name = &quot;No Name&quot;;        &#125;        public int ID;        public string Name;    &#125;   </code></p>
+</li>
+<li><p>自己创建构造器</p>
+</li>
+</ol>
+<p>一个在vs中自动生成构造器代码片段的code snippet：输入ctor 再按两下Tab键</p>
+<ol start="4">
+<li><p>⭐️构造器的内存原理</p>
+</li>
+<li><p>int是结构体类型——直接按照上述步骤初始化。</p>
+</li>
+<li><p>string是引用类型——“套娃”：需要在堆空间中另找一块内存存放参数的字符串，字符串地址放到原堆空间中，原堆空间的地址放到栈中。</p>
+</li>
+<li><p>创建Student实例，绑定的变量stu是引用变量，现在栈中默认分配4字节内存（为了保存对应堆空间的地址）。栈的内存分配是从高地址往低地址分配，“后进先出”，栈溢出就是分配到最上面没有内存了。</p>
+</li>
+<li><p>new操作符执行时会去堆空间中找可用空间，ID和Name字段需要8字节空间。</p>
+</li>
+<li><p>调用构造器对堆空间进行切割（4字节+4字节），并初始化。使用默认构造器进行初始化就是将堆空间内容全刷成0。</p>
+</li>
+<li><p>将堆空间的地址交还给栈空间引用变量。</p>
+</li>
+<li><p>仍以Student类为例，字段ID和Name均占4字节，内存中整型如果全为0则显示0，string类型全为0则显示null值。</p>
+</li>
+<li><p>用excel表示内存结构，一定要看视频讲解，非常形象！</p>
+</li>
+<li><p>调用默认构造器的操作：</p>
+</li>
+<li><p>如果是带参数的构造器，初始化的区别：</p>
+</li>
+</ol>
+<h2 id="（四）方法的重载"><a href="#（四）方法的重载" class="headerlink" title="（四）方法的重载"></a>（四）方法的重载</h2><ol>
+<li>首先对方法的重载有一个感性的认识。</li>
+</ol>
+<p><code>Console.WriteLine(); //有十多个重载，可输出不同类型的值   </code></p>
+<ol start="2">
+<li><p>重载的具体定义</p>
+</li>
+<li><p>为一个类创建方法时，方法名字可以相同，但<strong>方法签名</strong>不能相同，签名是用于表示唯一性的。</p>
+</li>
+<li><p>方法签名（method signature）由方法的名称、类型参数的个数和它的每一个形参（按从左到右的顺序）的类型、种类（值、引用或输出）组成。方法签名不包含返回类型。</p>
+</li>
+<li><p>实例构造器也可以重载。实例构函数签名由它的每一个形参（按从左到右的顺序）的类型和种类（值、引用或输出）组成。</p>
+</li>
+<li><p>重载决策（到底调用哪一个重载）：用于在给定了参数列表和一组候选函数成员的情况下，选择一个最佳函数成员来实施调用。——编译器自动选择。</p>
+</li>
+</ol>
+<h2 id="（五）如何对方法进行debug——看视频讲解"><a href="#（五）如何对方法进行debug——看视频讲解" class="headerlink" title="（五）如何对方法进行debug——看视频讲解"></a>（五）如何对方法进行debug——看视频讲解</h2><ol>
+<li><p>基本技术：</p>
+</li>
+<li><p>Step-into (F11)：走进函数，一步步走到底层函数，拿到结果逐层返回——适合仔细查找bug；</p>
+</li>
+<li><p>Step-out (F10)：不走进函数，直接拿到结果返回，适合快速大范围定位；</p>
+</li>
+<li><p>Step-out (Shift+F11)：直接返回上一层调用。</p>
+</li>
+<li><p>设置断点（breakpoint）</p>
+</li>
+<li><p>观察方法调用时的call stack（调用栈）</p>
+</li>
+<li><p>Step-into、Step-over、Step-out</p>
+</li>
+<li><p>观察局部变量的值与变化。使用Locals窗口，如果值变化了会变成红色。或者将鼠标放到局部变量上也会显示值。</p>
+</li>
+</ol>
+<h2 id="（六）方法的调用与栈的（映射）关系"><a href="#（六）方法的调用与栈的（映射）关系" class="headerlink" title="（六）方法的调用与栈的（映射）关系"></a>（六）方法的调用与栈的（映射）关系</h2><h3 id="⭐️方法调用时栈内存的分配"><a href="#⭐️方法调用时栈内存的分配" class="headerlink" title="⭐️方法调用时栈内存的分配"></a>⭐️方法调用时栈内存的分配</h3><ul>
+<li><p>对stack frame的分析</p>
+</li>
+<li><p>调用者称为主调者（Caller），被调用的方法称为被调者（Callee），主调者在调用被调者时，向被调者传参数，在C#和C++语言中，参数由主调者“管理”——由主调者负责将参数压入栈中以及从栈中清退。</p>
+</li>
+<li><p>一定要看视频讲解！刘铁猛老师用excel讲解方法调用时栈的内存分配，非常形象直观。</p>
+</li>
+<li><p>在栈中，每个函数都有自己的stack frame（栈帧）。一般函数的入口是Main函数，在Main函数中调用其他函数，因此Main函数以及它负责的变量（比如调用其他函数时传的参数）会首先压入栈中，这些栈空间都由Main函数管理。然后按照调用关系依次将其他函数及负责的变量压入栈中。</p>
+</li>
+<li><p>被调者的返回值存在哪里？——CPU寄存器中，如果CPU寄存器存不下会另外在栈上开辟空间。</p>
+</li>
+<li><p>当函数返回时，Callee的stack frame被清空，返回值从CPU寄存器存储到主调函数的局部变量中。按照调用关系依次清空各层被调者的栈空间，直到Main()函数也从栈中清空。</p>
+</li>
+<li><p>栈溢出（stack-over-flow）指的是调用方法层级过深，而又没有返回，一层层往下延伸压入栈中，直到栈空间溢出。</p>
+</li>
+</ul>
+<h1 id="P10-P12-操作符详解"><a href="#P10-P12-操作符详解" class="headerlink" title="P10-P12 操作符详解"></a>P10-P12 操作符详解</h1><p>操作符、表达式、语句都是为方法服务。</p>
+<h2 id="（一）操作符（perator）概览"><a href="#（一）操作符（perator）概览" class="headerlink" title="（一）操作符（perator）概览"></a>（一）操作符（perator）概览</h2><ul>
+<li><p>操作符个数是衡量一个编程语言是否强大的重要指标。操作符越多，基本运算能力越强大，组合复杂运算逻辑也越方便。</p>
+</li>
+<li><p>被操作符操作的数据称为操作数（operand）。</p>
+</li>
+</ul>
+<h2 id="（二）操作符的本质"><a href="#（二）操作符的本质" class="headerlink" title="（二）操作符的本质"></a>（二）操作符的本质</h2><ul>
+<li>操作符的本质是函数（即算法）的“简记法”。</li>
+</ul>
+<blockquote>
+<p>假如没有发明x，只有Mul函数，那么算式3+4×5只能写成Add(3, Mul(4,5))。</p>
+</blockquote>
+<ul>
+<li><p>操作符不能脱离它关联的数据类型</p>
+</li>
+<li><p>示例：为自定义数据类型创建操作符，使用operator关键字创建GetMarry操作符</p>
+</li>
+</ul>
+<h2 id="（三）操作符的优先级"><a href="#（三）操作符的优先级" class="headerlink" title="（三）操作符的优先级"></a>（三）操作符的优先级</h2><ul>
+<li><p>可以使用圆括号提高被括起来的表达式的优先级。</p>
+</li>
+<li><p>圆括号可以嵌套。</p>
+</li>
+<li><p>不同于数学，方括号[]和花括号{}在C#中有专门的用途。</p>
+</li>
+<li><p>[]用来访问索引器，如访问数组元素。</p>
+</li>
+<li><p>{}用来表示名称空间、类、方法体的范围。</p>
+</li>
+</ul>
+<h2 id="（四）同优先级操作符的运算顺序"><a href="#（四）同优先级操作符的运算顺序" class="headerlink" title="（四）同优先级操作符的运算顺序"></a>（四）同优先级操作符的运算顺序</h2><ul>
+<li><p>除了带有赋值功能的操作符，同优先级的操作符都是由左向右进行运算；</p>
+</li>
+<li><p>带有赋值功能的操作符的运算顺序是由右向左；</p>
+</li>
+<li><p>与数学运算不同，计算机语言的同优先级运算没有“结合律”，比如 3+4+5不能理解为Add(3,Add(4,5))。</p>
+</li>
+</ul>
+<h2 id="（五）各类操作符示例"><a href="#（五）各类操作符示例" class="headerlink" title="（五）各类操作符示例"></a>（五）各类操作符示例</h2><blockquote>
+<p>《C#图解教程（第5版）》P169</p>
+</blockquote>
+<p><img src="/2024/08/16/%E5%88%98%E9%93%81%E7%8C%9BC-%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/image-20240816231346508.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="5-1-基本操作符（不能被拆分的）"><a href="#5-1-基本操作符（不能被拆分的）" class="headerlink" title="5.1 基本操作符（不能被拆分的）"></a>5.1 基本操作符（不能被拆分的）</h3><h4 id="x-y成员访问操作符"><a href="#x-y成员访问操作符" class="headerlink" title="x.y成员访问操作符"></a>x.y成员访问操作符</h4><ul>
+<li><p>功能：</p>
+</li>
+<li><p>访问外层名称空间的子集名称空间；</p>
+</li>
+<li><p>访问名称空间的类型；</p>
+</li>
+<li><p>访问类型的静态成员；</p>
+</li>
+<li><p>访问对象的成员；</p>
+</li>
+</ul>
+<h4 id="f-x-方法调用操作符"><a href="#f-x-方法调用操作符" class="headerlink" title="f(x)方法调用操作符"></a>f(x)方法调用操作符</h4><h4 id="a-x-元素访问操作符"><a href="#a-x-元素访问操作符" class="headerlink" title="a[x]元素访问操作符"></a>a[x]元素访问操作符</h4><p><code>//创建数组类型对象的两种方法：   int[] myArray = new int[10]; //不需要加()调用构造器   int[] myArray = new int[]&#123;1,2,3,4,5&#125;; //使用初始化器   </code></p>
+<h4 id="x-、x–后置自增与自减"><a href="#x-、x–后置自增与自减" class="headerlink" title="x++、x–后置自增与自减"></a>x++、x–后置自增与自减</h4><ul>
+<li>如果左侧有赋值符号，先执行赋值再自增&#x2F;自减，与前置自增&#x2F;自减区分。</li>
+</ul>
+<h4 id="typeof查看类型的内部结构（metadata）"><a href="#typeof查看类型的内部结构（metadata）" class="headerlink" title="typeof查看类型的内部结构（metadata）"></a>typeof查看类型的内部结构（metadata）</h4><p><code>//技巧，使用typeof查看该数据类型有多少种方法   Type t = typeof(int)   Console.WriteLine(t.Namespace); //t.FullName, t.Name   int c = t.GetMethod().Length;   foreach(var mi in t.GetMethod())   &#123;       Console.WriteLine(mi.Name);   &#125;   </code></p>
+<h4 id="default获取一个类型的默认值"><a href="#default获取一个类型的默认值" class="headerlink" title="default获取一个类型的默认值"></a>default获取一个类型的默认值</h4><ol>
+<li>结构体类型</li>
+</ol>
+<p><code>int x = default(double);   Console.WriteLine(x);//输出0   </code></p>
+<ol start="2">
+<li>引用类型</li>
+</ol>
+<p><code>Form myForm = default(Form);   Console.WriteLine(myForm==null); //引用类型对应内存刷成全0则为null   </code></p>
+<ol start="3">
+<li>枚举类型</li>
+</ol>
+<blockquote>
+<p>对枚举类型进行显示赋值时需注意包含0才能取default。</p>
+</blockquote>
+<p><code>enum Level &#123;Low, Mid, High&#125;//默认Low=0，Mid=1，High=2   Level level = default(Level);   Console.WriteLine(level);//返回0对应的元素，即Low   //如果对Level进行显示赋值不包含0，则取default返回0   enum Level   &#123;       Low = 1,       Mid = 2,       High = 3   &#125;   evel level = default(Level);   Console.WriteLine(level);//返回0   </code></p>
+<h4 id="new"><a href="#new" class="headerlink" title="new"></a>new</h4><ul>
+<li><p>作用：创建实例并调用实例构造器；如果左边有赋值符号，new会把拿到的实例的内存地址交给负责访问该实例的变量。</p>
+<p>  <code>Form myForm = new Form()&#123;Text = &quot;Hello&quot;   </code></p>
+</li>
+<li><p>除了调用构造器，new还能调用初始化器。有些场景下对实例的访问是一次性的，没有必要创建变量引用该实例，因此new创建实例后立刻用初始化器进行初始化。</p>
+</li>
+<li><p>引用实例不一定需要使用new。语法糖衣</p>
+</li>
+</ul>
+<p><code>string name = &quot;Tim&quot;;   也可以 string name = new string();   int[] myArray = new int[10]; //不要加圆括号，构造器较特殊。   int[] myArray = &#123;1,2,3,4,5&#125;   </code></p>
+<ul>
+<li><p>new的特殊用法，为<strong>匿名类型</strong>创建对象，与var组合使用。</p>
+</li>
+<li><p>var关键字——声明隐式类型变量——赋值时由编译器推断数据类型；</p>
+</li>
+</ul>
+<p><code>var person = new &#123;Name = &quot;Mr.OKay&quot;, Age = 34&#125;; //真正体现了var的强大功能   Console.WriteLine(person.GetType().Name);   </code></p>
+<ul>
+<li><p>new功能强大，但越强大的东西滥用后果越危险。紧耦合。设计模式——依赖注入。</p>
+</li>
+<li><p>new关键字（非操作符）的多用性，比如作为修饰符。</p>
+</li>
+</ul>
+<p><code>class Student   &#123;       public void Report()       &#123;           Console.WriteLine(&quot;I&#39;m a student.&quot;);        &#125;   &#125;   Class CsStudent:Student   &#123;       new public void Report() //子类对父类方法的隐藏，此时new是修饰符。       &#123;           Console.WriteLine(&quot;I&#39;m CS student.&quot;);       &#125;   &#125;   </code></p>
+<h4 id="checked与unchecked"><a href="#checked与unchecked" class="headerlink" title="checked与unchecked"></a>checked与unchecked</h4><ul>
+<li>作用：检查值在内存中是否有溢出。数据类型标识一个数据类型的实例在内存中能占多大空间，超过该范围，就产生了溢出。checked告诉编译器检查是否有溢出，而unchecked则告诉编译器不用去检查。</li>
+</ul>
+<p><code>uint x = uint.MaxValue;   Console.WriteLine(x);   string binStr = Convert.ToString(x, 2);   Console.WriteLine(binStr);   try   &#123;       uint y = checked(x+1);//C#默认采用unchecked模式，如果不加checked则输出0，且不会抛出异常；如果想要不检查，则在try代码块之外加unchecked&#123;&#125;;       Console.WriteLine(y);   &#125;   catch(OverflowException ex)   &#123;       Console.WriteLine(&quot;There&#39;s overflow!&quot;);   &#125;   </code></p>
+<h4 id="delegate"><a href="#delegate" class="headerlink" title="delegate"></a>delegate</h4><ul>
+<li><p>更广泛的用途：用于声明委托</p>
+</li>
+<li><p>很少当作操作符使用，现在已用lambda表达式取代。</p>
+</li>
+</ul>
+<h4 id="sizeof"><a href="#sizeof" class="headerlink" title="sizeof"></a>sizeof</h4><ul>
+<li><p>获取对象在内存中所占字节数；</p>
+<p>  <code>class Program   &#123;       static void Main(string[] args)       &#123;           unsafe //这样还不够，必须在Project-属性-build中设置unsafe才能编译通过。           &#123;               int x = sizeof(Student);           &#125;       &#125;   &#125;   struct Student   &#123;       int ID;       long Score;   &#125;   </code></p>
+</li>
+<li><p>只能获取基本数据类型——C#关键字中的数据类型，除了string和object，因为这两者不是结构体。</p>
+</li>
+<li><p>可以使用sizeof去获取自定义的结构体实例在内存中所占字节数，但是必须放在不安全的上下文中。</p>
+</li>
+</ul>
+<h4 id="箭头符"><a href="#箭头符" class="headerlink" title="-&gt;箭头符"></a>-&gt;箭头符</h4><ul>
+<li>直接操作内存，必须放在不安全的上下文中才可使用。C#严格规定指针操作、取地址操作、指针访问成员操作只能用来操作结构体类型，不能用来操作引用类型。</li>
+</ul>
+<p><code>//继续使用上一代码中的Student结构体   unsafe   &#123;       Student stu;       stu.ID = 1;       stu.Score = 99;       Student* pStu = &amp;stu;       pStu-&gt;Score = 100;       Console.WriteLine(stu.Score); //打印100   &#125;   </code></p>
+<h3 id="5-2-一元操作符"><a href="#5-2-一元操作符" class="headerlink" title="5.2 一元操作符"></a>5.2 一元操作符</h3><ul>
+<li>只有一个操作数</li>
+</ul>
+<h4 id="x和-x最不常用"><a href="#x和-x最不常用" class="headerlink" title="&amp;x和*x最不常用"></a>&amp;x和*x最不常用</h4><ul>
+<li>都需要在unsafe上下文中使用</li>
+</ul>
+<p><code>unsafe   &#123;       Student stu;       stu.ID = 1;       stu.Score = 99;       Student* pStu = &amp;stu;       pStu-&gt;Score = 100;       (*pStu).Score = 1000;       Console.WriteLine(stu.Score); //打印1000   &#125;   </code></p>
+<h4 id="、-、-、"><a href="#、-、-、" class="headerlink" title="+、-、!、~"></a>+、-、!、~</h4><ul>
+<li><p>与数学运算不一致的地方：计算机语言有位数限制。</p>
+</li>
+<li><p>~按位取反，求相反数是按位取反再加1</p>
+</li>
+</ul>
+<p><code>int x = int.MinValue; //-2147483648, 2的31次方-1   int y = -x; //-2147483648，按位取反再加1因此没有变, 实际该值已溢出，int.MaxValue的绝对值比int.MinValue小1。   int z = ~x; //2147483647   Console.WriteLine(x.ToString());   Console.WriteLine(y.ToString());   Console.WriteLine(z.ToString());   string xStr = Convert.ToString(x, 2).PadLeft(32, &#39;0&#39;);   string yStr = Convert.ToString(y, 2).PadLeft(32, &#39;0&#39;);   string zStr = Convert.ToString(z, 2).PadLeft(32, &#39;0&#39;);   Console.WriteLine(xStr);   Console.WriteLine(yStr);   Console.WriteLine(zStr);   </code></p>
+<ul>
+<li>!取非操作只能操作布尔类型。</li>
+</ul>
+<h4 id="前置自增与自减vs后置"><a href="#前置自增与自减vs后置" class="headerlink" title="前置自增与自减vs后置"></a>前置自增与自减vs后置</h4><p><code>int x = 100;   //后置   int y = x++;//输出x=101，y=100, 先赋值再自增，自减同理   //前置   int y = ++x;//输出x=101，y=101, 先自增再赋值，自减同理   </code></p>
+<h4 id="T-x-强制-显示类型转换操作符"><a href="#T-x-强制-显示类型转换操作符" class="headerlink" title="T(x)强制&#x2F;显示类型转换操作符"></a>T(x)强制&#x2F;显示类型转换操作符</h4><blockquote>
+<p>任何一个操作符与数据类型都是不可分割的。</p>
+</blockquote>
+<h5 id="隐式（implicit）类型转换：编译器自动转换"><a href="#隐式（implicit）类型转换：编译器自动转换" class="headerlink" title="隐式（implicit）类型转换：编译器自动转换"></a>隐式（implicit）类型转换：编译器自动转换</h5><ul>
+<li>不丢失精度的转换——查C#定义文档</li>
+</ul>
+<p><code>int x = int.MaxValue;   long y = x;   Console.WriteLine(y);   </code></p>
+<ul>
+<li>子类向父类的转换（里氏转换）</li>
+</ul>
+<blockquote>
+<p>所有面向对象的语言都支持子类向父类的转换，“多态”。</p>
+</blockquote>
+<p><code>class Program   &#123;       static void Main(string[] args)       &#123;           Teacher t = new Teacher();           Human h = t;//里氏转换           Animal a = h;           a.Eat(); //a只能访问Eat方法。       &#125;   &#125;   //t中存储了Teacher的实例，为什么h不能访问Teach()方法？   //C#规定试图用引用变量访问其所引用的实例成员时，只能访问到该变量的类型所具有的实例成员。   class Animal   &#123;       public void Eat()       &#123;           Console.WriteLine(&quot;Eating……&quot;)；       &#125;   &#125;   class Human:Animal   &#123;       public void Think()       &#123;           Console.WriteLine(&quot;Who I am?&quot;);       &#125;   &#125;   class Teacher: Human   &#123;       public void Teach()       &#123;           Console.WriteLine(&quot;I teach programming.&quot;);       &#125;   &#125;   </code></p>
+<ul>
+<li>装箱：从栈搬到堆，除了性能上的损失，不会有精度上的损失。</li>
+</ul>
+<h5 id="显式（explicit）类型转换"><a href="#显式（explicit）类型转换" class="headerlink" title="显式（explicit）类型转换"></a>显式（explicit）类型转换</h5><ul>
+<li><p>有可能丢失精度（甚至发生错误）的转换，即cast（铸造）；</p>
+</li>
+<li><p>格外注意有符号数据类型到无符号数据类型的转换。</p>
+</li>
+<li><p>拆箱：从object类型转换为具体的数据类型，必须要进行显示转换；</p>
+</li>
+</ul>
+<blockquote>
+<p>C#中任何一种数据类型都直接或间接地派生自object，因此所有数据类型都带有四个方法：Equals、GetHashCode、GetType、ToString</p>
+</blockquote>
+<ul>
+<li><p>使用Convert类</p>
+</li>
+<li><p>调用Convert类的静态方法</p>
+</li>
+<li><p>调用数值类型的ToString()实例方法。</p>
+</li>
+<li><p>如果想将字符串类型转换为数值类型，有两种方法：</p>
+</li>
+<li><p>ToString方法与各数据类型的Parse&#x2F;TryParse方法</p>
+</li>
+</ul>
+<p><code>double x = double.Parse(text);//只能解析格式正确的字符串类型，否则会抛出异常System.FormatException.   double x = double.TryParse(text, out输出参数);//返回bool类型   </code></p>
+<h5 id="自定义类型转换操作符"><a href="#自定义类型转换操作符" class="headerlink" title="自定义类型转换操作符"></a>自定义类型转换操作符</h5><blockquote>
+<p>类型转换操作符其实也是某种方法的简记法。</p>
+</blockquote>
+<p><code>class Program   &#123;       static void Main(string[] args)       &#123;           Stone stone = new Stone();           MonKey m = (Monkey)stone;                  &#125;   &#125;   class Stone   &#123;      public int Age;            public static explicit operator Monkey(Stone stone)      &#123;          Monkey m = new Monkey();          m.Age = stone.Age/100;          return m;      &#125;//显示类型转换操作符本质就是目标类型的实例构造器，但该构造器写在被转换的类中。   &#125;      class Monkey   &#123;       public int Monkey;   &#125;   </code></p>
+<h3 id="5-3-算数运算操作符（-）"><a href="#5-3-算数运算操作符（-）" class="headerlink" title="5.3 算数运算操作符（* &#x2F; % + -）"></a>5.3 算数运算操作符（* &#x2F; % + -）</h3><ul>
+<li><p>任何一个操作符都与其数据类型相关。算数运算操作符基本与数学中相同（数学中没有取余%），但当其操作的数据类型不同时，行为也不太一样。</p>
+</li>
+<li><p>在进行数值运算时，要留心“数值提升”，数据类型提升，整数*double类型默认转换为double类型，这样就不会丢失精度。</p>
+</li>
+</ul>
+<h3 id="5-4-位移操作符"><a href="#5-4-位移操作符" class="headerlink" title="5.4 位移操作符"></a>5.4 位移操作符</h3><ul>
+<li>二进制左移×2，右移则是除2，配合checked使用防止溢出。</li>
+</ul>
+<h3 id="5-5-关系和类型检测操作符"><a href="#5-5-关系和类型检测操作符" class="headerlink" title="5.5 关系和类型检测操作符"></a>5.5 关系和类型检测操作符</h3><ul>
+<li><p>可用于比较数值、字符类型（ASCII码）、字符串比较</p>
+</li>
+<li><p>is</p>
+</li>
+</ul>
+<p><code>Teacher t = new Teacher();   var result = t is Human;   Console.WriteLine(result);//True   </code></p>
+<ul>
+<li>as</li>
+</ul>
+<p><code>object o = new Teacher();   Teacher t = o as Teacher; //如果o像Teacher一样，就把对象的地址交给t，否则返回null值给t   if(t != null)   &#123;       t.Teach();   &#125;   </code></p>
+<h3 id="5-6-逻辑与-、异或-、或"><a href="#5-6-逻辑与-、异或-、或" class="headerlink" title="5.6 逻辑与&amp;、异或^、或|"></a>5.6 逻辑与&amp;、异或^、或|</h3><ul>
+<li><p>因为是用来操作数据的二进制结构，因此又称为 位与&#x2F;位异或&#x2F;位或。</p>
+</li>
+<li><p>&amp; 相同为真1，不同为假0；</p>
+</li>
+<li><p>^ 相同为假，不同为1；</p>
+</li>
+<li><p>| 只要有一个为真即为真。</p>
+</li>
+</ul>
+<p><code>int x = 7;   int y = 28;   int z = x&amp;y;    string StrX = Convert.ToString(x, 2).PadLeft(32, &#39;0&#39;);   string StrY = Convert.ToString(y, 2).PadLeft(32, &#39;0&#39;);   string StrZ = Convert.ToString(z, 2).PadLeft(32, &#39;0&#39;);   </code></p>
+<h3 id="5-7-条件与-、条件或"><a href="#5-7-条件与-、条件或" class="headerlink" title="5.7 条件与&amp;&amp;、条件或||"></a>5.7 条件与&amp;&amp;、条件或||</h3><ul>
+<li><p>与逻辑与或的区别：条件与或用于操作布尔类型值，在编程中使用更广。</p>
+</li>
+<li><p>条件与或的短路：</p>
+</li>
+<li><p>&amp;&amp;：当发现左边的表达式已经为假的时候，右边的表达式就不会被执行。</p>
+</li>
+<li><p>||：当发现左边的表达式已经为真的时候，右边的表达式就不会被执行。</p>
+</li>
+</ul>
+<p><code>int x = 5;   int y = 4;   int a = 3   if(x&gt;y || ++a &gt; 3 )   &#123;       Console.WriteLine(&quot;Hello&quot;)   &#125;   Console.WriteLine(a);   </code></p>
+<h3 id="5-8-null合并操作符："><a href="#5-8-null合并操作符：" class="headerlink" title="5.8 null合并操作符：??"></a>5.8 null合并操作符：??</h3><p> <code>Nullable&lt;int&gt; x = null;    //因为可空类型很常用，C#将其吸收为关键字,比如int?     int? x = null;    x = 100;    Console.WriteLine(x.HasValue);        //举例：有同学一学期没交作业，期末算总分的时候，没交作业给1分    int? x = null;    int y = x ?? 1; //如果x为null，则y=1</code> </p>
+<h3 id="5-9-条件操作符"><a href="#5-9-条件操作符" class="headerlink" title="5.9 条件操作符?:"></a>5.9 条件操作符?:</h3><ul>
+<li>唯一一个可接收三个操作数的操作符，本质上是if else分支的简写</li>
+</ul>
+<p><code>int x = 80;   string str = string.Empty;   str = x&gt;60 ? &quot;Pass&quot;:&quot;Failed&quot;; //如果超过60分则及格   </code></p>
+<h3 id="5-10-赋值和lambda表达式"><a href="#5-10-赋值和lambda表达式" class="headerlink" title="5.10 赋值和lambda表达式"></a>5.10 赋值和lambda表达式</h3><p><code>int x = 5;   int y = 6;   int z = 7;   int a = x += y *= z;   Console.WriteLine(a); //a=47   </code></p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>刘铁猛《C#语言入门详解》全集</p>
+<p>（地址：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV13b411b7Ht?t=1.6%EF%BC%89">https://www.bilibili.com/video/BV13b411b7Ht?t=1.6）</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>刘铁猛C#语言学习入门课程笔记</div>
+      <div>http://example.com/2024/08/16/刘铁猛C-语言学习入门课程笔记/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>羽飞Lexie</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年8月16日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/08/16/%E4%B8%80%E6%96%87%E6%90%9E%E5%AE%9AC%E8%AF%AD%E8%A8%80%E6%8C%87%E9%92%88/" title="一文搞定C语言指针">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">一文搞定C语言指针</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/08/16/%E4%B8%80%E4%BB%BDgit%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%97%EF%BC%8C%E8%AF%B7%E6%9F%A5%E6%94%B6/" title="一份git学习指南，请查收">
+                        <span class="hidden-mobile">一份git学习指南，请查收</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
